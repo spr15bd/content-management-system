@@ -3,20 +3,14 @@
 
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
+let data;
 const express = require("express");
 const app = express();
-const mysql = require("mysql");
-let data;
 
 //app.engine('html', require('ejs').renderFile);
 app.set("view engine","ejs");
 
-var connection = mysql.createConnection({
-  host     : 'sql2.freemysqlhosting.net',
-  user     : 'sql2333242',
-  password : 'lT8!hP9%',
-  database : 'sql2333242'
-});
+let connection = require("./connection.js");
 
 connection.connect();
 
@@ -33,13 +27,6 @@ connection.query('SELECT * from categories', function (error, results, fields) {
 connection.end();
 
 
-
-// our default array of dreams
-const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
