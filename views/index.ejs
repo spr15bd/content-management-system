@@ -9,7 +9,24 @@
     <div class="container">
 
         <div class="row">
+            <%
+              
+        if(userPosts.length!=0){
+          
+          userPosts.forEach(function(posts){
+            console.log("posts are: "+posts.post_title);
+            %>hello<%
+          });
+        }
+        %>
+            
+        
+  
 
+
+            
+            
+            
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
@@ -34,38 +51,7 @@
 
                 <hr>
 
-                <!-- Second Blog Post -->
-                <h2>
-                    <a href="#">Blog Post Title</a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php">Start Bootstrap</a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:45 PM</p>
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, quasi, fugiat, asperiores harum voluptatum tenetur a possimus nesciunt quod accusamus saepe tempora ipsam distinctio minima dolorum perferendis labore impedit voluptates!</p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-                <hr>
-
-                <!-- Third Blog Post -->
-                <h2>
-                    <a href="#">Blog Post Title</a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php">Start Bootstrap</a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:45 PM</p>
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                <hr>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate, voluptates, voluptas dolore ipsam cumque quam veniam accusantium laudantium adipisci architecto itaque dicta aperiam maiores provident id incidunt autem. Magni, ratione.</p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
-                <hr>
-
+                
                 
 
             </div>
@@ -75,15 +61,11 @@
         <hr>
 
         <!-- Footer -->
-        <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
+        <%- include("partials/footer") %>
 
       <!-- include the Glitch button to show what the webpage is about and
             to make it easier for folks to view source and remix -->
       <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
       <script src="https://button.glitch.me/button.js"></script>
 
-    </div>
-    <!-- /.container -->
-  </body>
-
-</html>
+    
