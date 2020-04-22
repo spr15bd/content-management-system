@@ -1,7 +1,7 @@
 // server.js
 // where your node app starts
 
-let data;
+let data, posts;
 const express = require("express");
 const app = express();
 
@@ -16,8 +16,18 @@ connection.query('SELECT * from categories', function (error, results, fields) {
     console.log("Connection error");
     throw error;
   }
-  console.log('The solution is: ', results);
+  //console.log('The solution is: ', results);
   data = results;
+  
+});
+
+connection.query('SELECT * from posts', function (error, results, fields) {
+  if (error) {
+    console.log("Connection error");
+    throw error;
+  }
+  //console.log('The solution is: ', results);
+  posts = results;
   
 });
 
@@ -31,7 +41,9 @@ app.use(express.static("public"));
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
-  response.render('index', { title: 'User List', userData: data});
+  response.render('index', { title: 'User List', userData: data,
+                             title: 'User List', userPosts: posts
+                           });
   //response.sendFile(__dirname + "/views/index.html");
 });
 
