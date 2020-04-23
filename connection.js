@@ -1,8 +1,4 @@
 const mysql = require("mysql");
-
-
-
-
 let connection = mysql.createConnection({
   host     : 'sql2.freemysqlhosting.net',
   user     : 'sql2333242',
