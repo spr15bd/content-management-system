@@ -1,4 +1,4 @@
-# hello-express
+# a node content management system
 
 A server that serves a webpage, its resources, and some data
 
