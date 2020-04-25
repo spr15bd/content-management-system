@@ -4,7 +4,8 @@
 let data, posts;
 const express = require("express");
 const app = express();
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
 app.set("view engine","ejs");
 
 let connection = require("./connection.js");
@@ -47,7 +48,9 @@ app.get("/", (request, response) => {
   //response.sendFile(__dirname + "/views/index.html");
 });
 
-
+app.post("/search", (request, response) => {
+  console.log(request.body.search_text);   
+});
 
 
 // listen for requests :)
