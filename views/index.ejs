@@ -21,9 +21,9 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
              <%
-              
+              console.log("userPosts: "+userPosts.length);
               if(userPosts.length!=0){
-
+                
                 userPosts.forEach(function(posts){
                   post_title = posts.post_title;
                   post_author = posts.post_author;
@@ -61,7 +61,9 @@
                 
 
            
-          <%  });}  %>
+          <%  });} else { %> <h1>Records not found.</h1> <%
+            
+          } %>
           </div>
             <%- include("partials/side_bar") %>
 
