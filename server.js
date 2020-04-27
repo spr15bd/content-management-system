@@ -69,7 +69,14 @@ app.get("/", (request, response) => {
   //response.sendFile(__dirname + "/views/index.html");
 });
 
-
+app.get("/admin", (request, response) => {
+  
+  
+  response.render('admin/index', { title: 'User List', userData: data,
+                             title: 'User List', userPosts: posts
+                           });
+  //response.sendFile(__dirname + "/views/index.html");
+});
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
