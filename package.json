@@ -1,29 +1,16 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-express",
-  "version": "0.0.1",
-  "description": "A simple Node app built on Express, instantly up and running.",
-  "main": "server.js",
+  "name": "space-carnage",
+  "version": "1.0.0",
+  "description": "A pure JavaScript shoot 'em up",
+  "main": "index.html",
   "scripts": {
-    "start": "node server.js"
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
   },
-  "dependencies": {
-    "express": "^4.17.1",
-    "mysql": "^2.16.0",
-    "ejs": "^2.6.1"
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "parcel-bundler": "^1.6.1"
   },
-  "engines": {
-    "node": "12.x"
-  },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
-  },
-  "license": "MIT",
-  "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+  "keywords": []
 }
