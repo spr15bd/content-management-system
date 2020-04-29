@@ -21,16 +21,48 @@
                         
                       
                     </div>
+                    <!-- Add a new category -->
                     <div class="col-lg-6">
-                      <form action="" method="POST">
-                        <label>Add New Category</label>
-                        <input type="text" name="category" placeholder="Category" class="form-control mb-2">
-                        <button class="btn btn-success" name="btn_category" type="submit">
-                        Add Category
+                      <form action="/add_category" method="POST">
+                        <div class="form-group">
+                          <label>Add New Category</label>
+                          <input type="text" name="category" placeholder="Category" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <button class="btn btn-success" name="btn_category" type="submit">
+                          Add Category
                         </button>
+                        </div>
+                        
                       </form>
                         
                     </div>
+                    
+                    <div class="col-lg-6">
+                      <table class="table table-bordered">
+                        <tr>
+                          <th>Category ID</th>
+                          <th>Category Name</th>
+                        </tr>
+                        
+                        <%
+                        if(userData.length!=0){
+                          
+                          userData.forEach(function(data){
+                        %>
+                        <tr>
+                          <td><%=data.cat_id%></td>
+                          <td><%=data.cat_title%></td>
+                        </tr>
+                        <% 
+                          }) 
+                        }
+                        %>
+                        
+                        
+                      </table>  
+                    </div>
+                  </div>
                 </div>
                 <!-- /.row -->
               </div>
