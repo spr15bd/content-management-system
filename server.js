@@ -1,7 +1,7 @@
 // server.js
 // where your node app starts
 
-let data, posts, search_posts;
+let data, posts, search_posts, message="";
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
@@ -62,22 +62,21 @@ app.post("/search", (request, response) => {
 app.post("/add_category", (request, response) => {
   console.log(request.body.category);
   if (request.body.category=="") {
-    console.log("Please enter a category");
+    message = "Please enter a category";
   } else {
+    message="";
     connection.query('INSERT INTO categories (cat_title) values (\"'+request.body.category+'\")', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
       }
-    
-      console.log('Added a new category');
-      //search_posts = results;
-      response.render('admin/categories', { title: 'User List', userData: data,
-                               title: 'User List', userPosts: search_posts
-      });
     });
-  }
-  
+  }  
+  console.log('message is '+message);
+  response.render('admin/categories', {   title: 'User List', userData: data,
+                                              //title: 'User List', userPosts: search_posts,
+                                              title: 'User List', userMessage: message
+  });
 });
 
 // https://expressjs.com/en/starter/basic-routing.html
@@ -103,7 +102,8 @@ app.get("/categories", (request, response) => {
   
   
   response.render('admin/categories', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts
+                             title: 'User List', userPosts: posts,
+                              title: 'User List', userMessage: ""
                            });
   //response.sendFile(__dirname + "/views/index.html");
 });
