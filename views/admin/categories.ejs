@@ -33,6 +33,13 @@
                           Add Category
                         </button>
                         </div>
+                        <div>
+                          <p class="alert alert-danger">
+                            <%=userMessage%> 
+                          </p>
+                            
+                          
+                        </div>
                         
                       </form>
                         
@@ -41,8 +48,9 @@
                     <div class="col-lg-6">
                       <table class="table table-bordered">
                         <tr>
-                          <th>Category ID</th>
-                          <th>Category Name</th>
+                          <th style="width:20%">Category ID</th>
+                          <th style="width:70%">Category Name</th>
+                          <th style="width:30%" colspan=2>Operations</th>
                         </tr>
                         
                         <%
@@ -53,12 +61,22 @@
                         <tr>
                           <td><%=data.cat_id%></td>
                           <td><%=data.cat_title%></td>
+                          <td><a href="categories?del=<%=data.cat_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+                          <td><a href="categories?update=<%=data.cat_id%>" class="btn btn-success"><span class="fa fa-trash"></span></a></td>
                         </tr>
                         <% 
                           }) 
                         }
                         %>
+                        <%
+                        connection.query('INSERT INTO categories (cat_title) values (\"'+request.query.del+'\")', function (error, results, fields) {
+                          if (error) {
+                            console.log("Connection error");
+                            throw error;
+                          }
+                        });
                         
+                        %>
                         
                       </table>  
                     </div>
