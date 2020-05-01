@@ -79,6 +79,22 @@ app.post("/add_category", (request, response) => {
   });
 });
 
+app.post("/delete_category", (request, response) => {
+  
+  connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('Deleted'+request.query.del);
+    
+    response.render('admin/categories', { title: 'User List', userData: data,
+                               title: 'User List', userPosts: search_posts
+    });
+  });
+  
+});
+
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   

@@ -68,15 +68,7 @@
                           }) 
                         }
                         %>
-                        <%
-                        connection.query('INSERT INTO categories (cat_title) values (\"'+request.query.del+'\")', function (error, results, fields) {
-                          if (error) {
-                            console.log("Connection error");
-                            throw error;
-                          }
-                        });
-                        
-                        %>
+                       
                         
                       </table>  
                     </div>
