@@ -55,17 +55,17 @@
                         
                         <%
                         if(userData.length!=0){
-                          
-                          userData.forEach(function(data){
+                          console.log(typeof userData);
+                          userData.forEach((data) => {
                         %>
                         <tr>
                           <td><%=data.cat_id%></td>
                           <td><%=data.cat_title%></td>
-                          <td><a href="categories?del=<%=data.cat_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+                          <td><a href="/delete_category?del=<%=data.cat_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
                           <td><a href="categories?update=<%=data.cat_id%>" class="btn btn-success"><span class="fa fa-trash"></span></a></td>
                         </tr>
                         <% 
-                          }) 
+                          });
                         }
                         %>
                        

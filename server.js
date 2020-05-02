@@ -1,7 +1,8 @@
 // server.js
 // where your node app starts
 
-let data, posts, search_posts, message="";
+let data, posts, search_posts;
+let message="";
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
@@ -42,7 +43,6 @@ connection.query('SELECT * from posts', function (error, results, fields) {
 app.use(express.static("public"));
 
 
-
 app.post("/search", (request, response) => {
   console.log(request.body.search_text);
   connection.query('SELECT * from posts WHERE post_tags LIKE \"'+request.body.search_text+'\"', function (error, results, fields) {
@@ -70,6 +70,8 @@ app.post("/add_category", (request, response) => {
         console.log("Connection error");
         throw error;
       }
+      console.log("Data is "+results);
+      data=results;
     });
   }  
   console.log('message is '+message);
@@ -79,31 +81,26 @@ app.post("/add_category", (request, response) => {
   });
 });
 
-app.post("/delete_category", (request, response) => {
+app.get("/delete_category", (request, response) => {
   
   connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
     if (error) {
       console.log("Connection error");
       throw error;
     }
-    console.log('Deleted'+request.query.del);
     
-    response.render('admin/categories', { title: 'User List', userData: data,
-                               title: 'User List', userPosts: search_posts
+    console.log('Deleted'+request.query.del);
+    message="Deleted "+request.query.del;
+    console.log("Results are: "+results);
+    
+    response.render('admin/categories', { userData: results,
+                               userMessage: message
     });
   });
   
 });
 
-// https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  
-  
-  response.render('index', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts
-                           });
-  //response.sendFile(__dirname + "/views/index.html");
-});
+
 
 app.get("/admin", (request, response) => {
   
@@ -117,12 +114,23 @@ app.get("/admin", (request, response) => {
 app.get("/categories", (request, response) => {
   
   
-  response.render('admin/categories', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts,
-                              title: 'User List', userMessage: ""
+  response.render('admin/categories', { userData: data,
+                             userPosts: posts,
+                              userMessage: ""
                            });
   //response.sendFile(__dirname + "/views/index.html");
 });
+
+// https://expressjs.com/en/starter/basic-routing.html
+app.get("/", (request, response) => {
+  
+  
+  response.render('index', { userData: data,
+                             userPosts: posts
+                           });
+  //response.sendFile(__dirname + "/views/index.html");
+});
+
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
