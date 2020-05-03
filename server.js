@@ -79,8 +79,10 @@ app.post("/add_category", (request, response) => {
 });
 
 app.get("/delete_category", (request, response) => {
-  
-  connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
+  //let results1;
+  async function delQuery() {connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
+    
+    
     if (error) {
       console.log("Connection error");
       throw error;
@@ -91,8 +93,11 @@ app.get("/delete_category", (request, response) => {
     console.log("Results are: "+results);
     
     
-  });
-  response.redirect('/admin/categories');
+      
+  })}
+  delQuery().then(response.redirect('/admin/categories'));;
+  
+  //response.redirect('/admin/categories');
 });
 
 
@@ -108,18 +113,19 @@ app.get("/admin", (request, response) => {
 
 app.get("/admin/categories", (request, response) => {
   
-  connection.query('SELECT * from categories', function (error, results, fields) {
-  if (error) {
-    console.log("Connection error");
-    throw error;
-  }
-  //console.log('The solution is: ', results);
-  data = results;
+  async function categoryQuery() {await connection.query('SELECT * from categories', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    //console.log('The solution is: ', results);
+    data = results;
   
-});
-  response.render('admin/categories', { userData: data,
+  })}
+  
+  categoryQuery().then(response.render('admin/categories', { userData: data,
                              userMessage: message
-                           });
+                           }));
   //response.sendFile(__dirname + "/views/index.html");
 });
 
