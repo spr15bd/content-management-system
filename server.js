@@ -64,21 +64,18 @@ app.post("/add_category", (request, response) => {
   if (request.body.category=="") {
     message = "Please enter a category";
   } else {
-    message="";
+    message="Added new category";
     connection.query('INSERT INTO categories (cat_title) values (\"'+request.body.category+'\")', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
       }
       console.log("Data is "+results);
-      data=results;
+      //data=results;
     });
   }  
   console.log('message is '+message);
-  response.render('admin/categories', {   title: 'User List', userData: data,
-                                              //title: 'User List', userPosts: search_posts,
-                                              title: 'User List', userMessage: message
-  });
+  response.redirect('/admin/categories');
 });
 
 app.get("/delete_category", (request, response) => {
@@ -93,11 +90,9 @@ app.get("/delete_category", (request, response) => {
     message="Deleted "+request.query.del;
     console.log("Results are: "+results);
     
-    response.render('admin/categories', { userData: results,
-                               userMessage: message
-    });
+    
   });
-  
+  response.redirect('/admin/categories');
 });
 
 
@@ -111,12 +106,19 @@ app.get("/admin", (request, response) => {
   //response.sendFile(__dirname + "/views/index.html");
 });
 
-app.get("/categories", (request, response) => {
+app.get("/admin/categories", (request, response) => {
   
+  connection.query('SELECT * from categories', function (error, results, fields) {
+  if (error) {
+    console.log("Connection error");
+    throw error;
+  }
+  //console.log('The solution is: ', results);
+  data = results;
   
+});
   response.render('admin/categories', { userData: data,
-                             userPosts: posts,
-                              userMessage: ""
+                             userMessage: message
                            });
   //response.sendFile(__dirname + "/views/index.html");
 });

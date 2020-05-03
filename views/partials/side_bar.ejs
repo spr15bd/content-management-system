@@ -26,11 +26,11 @@
                           <ul class="list-unstyled">
                             <%
                             if(userData.length!=0){
-                              //var i=1;
-                              userData.forEach(function(data){
+                              
+                              Object.keys(userData).forEach((key) => {
                             %>
-                                <li><a href="#"><%=data.cat_title%></a></li>
-                            <%  //i++;
+                                <li><a href="#"><%=userData[key].cat_title%></a></li>
+                            <%  
                               }) 
                             }
                             %>
