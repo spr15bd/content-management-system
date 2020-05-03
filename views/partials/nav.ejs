@@ -15,12 +15,12 @@
       <ul class="nav navbar-nav">
         <%
         if(userData.length!=0){
-          var i=1;
-          userData.forEach(function(data){
+          Object.keys(userData).forEach(function(key) {
+            let row=userData[key];
         %>
-            <li><a href="#"><%=data.cat_title%></a></li>
-        <%  i++;
-          }) 
+            <li><a href="#"><%=row.cat_title%></a></li>
+        <%  
+          });
         }
         %>
         <li><a href="admin">Admin</a></li>
