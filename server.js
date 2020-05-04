@@ -80,22 +80,30 @@ app.post("/add_category", (request, response) => {
 
 app.get("/delete_category", (request, response) => {
   //let results1;
-  async function delQuery() {connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
+  async function delQuery() {
+    await new Promise((resolve) => {
+      connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
     
     
-    if (error) {
-      console.log("Connection error");
-      throw error;
-    }
-    
-    console.log('Deleted'+request.query.del);
-    message="Deleted "+request.query.del;
-    console.log("Results are: "+results);
-    
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        
+        console.log('Deleted'+request.query.del);
+        message="Deleted "+request.query.del;
+        console.log("Results are: "+results);
+        resolve(results);
     
       
-  })}
-  delQuery().then(response.redirect('/admin/categories'));;
+      });
+      
+    });
+    
+  }
+  
+  delQuery().then(response.redirect('/admin/categories')
+                  );
   
   //response.redirect('/admin/categories');
 });
@@ -113,18 +121,23 @@ app.get("/admin", (request, response) => {
 
 app.get("/admin/categories", (request, response) => {
   
-  async function categoryQuery() {await connection.query('SELECT * from categories', function (error, results, fields) {
-    if (error) {
-      console.log("Connection error");
-      throw error;
-    }
-    //console.log('The solution is: ', results);
-    data = results;
+  async function categoryQuery() {
+    await new Promise((resolve) => {
+      connection.query('SELECT * from categories', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        //console.log('The solution is: ', results);
+        data = results;
+      });
+      resolve();
+    })
+  }
   
-  })}
-  
-  categoryQuery().then(response.render('admin/categories', { userData: data,
-                             userMessage: message
+  categoryQuery().then(()=>response.render('admin/categories', { userData: data,
+                             userMessage: message,
+                              edit: request.query.edit
                            }));
   //response.sendFile(__dirname + "/views/index.html");
 });
