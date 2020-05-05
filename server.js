@@ -78,32 +78,13 @@ app.post("/add_category", (request, response) => {
   response.redirect('/admin/categories');
 });
 
-app.get("/delete_category", (request, response) => {
+app.get("/delete_category", async (request, response) => {
   //let results1;
   async function delQuery() {
-    await new Promise((resolve) => {
-      connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
-    
-    
-        if (error) {
-          console.log("Connection error");
-          throw error;
-        }
-        
-        console.log('Deleted'+request.query.del);
-        message="Deleted "+request.query.del;
-        console.log("Results are: "+results);
-        resolve(results);
-    
-      
-      });
-      
-    });
-    
+    fetchQuery(request, response);
   }
+  await delQuery().then(()=>{rerun(request, response)});
   
-  delQuery().then(response.redirect('/admin/categories')
-                  );
   
   //response.redirect('/admin/categories');
 });
@@ -157,3 +138,33 @@ app.get("/", (request, response) => {
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
+
+
+
+var fetchQuery = function(request, response) {
+  new Promise((resolve) => {
+      connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
+    
+    
+        if (error) {
+          console.log("Connection error");
+          throw error;
+          //reject(results);
+        }
+        
+        console.log('Deleted'+request.query.del);
+        message="Deleted "+request.query.del;
+        console.log("Results are: "+results);
+        resolve(results);
+        //return results;
+      
+      });
+      
+    });
+    
+}
+
+var rerun = function(req, res) {
+  res.redirect('/admin/categories')
+                 ;
+}
