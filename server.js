@@ -60,12 +60,31 @@ app.post("/search", (request, response) => {
 });
 
 app.post("/add_category", (request, response) => {
-  console.log(request.body.category);
+  
   if (request.body.category=="") {
     message = "Please enter a category";
   } else {
     message="Added new category";
     connection.query('INSERT INTO categories (cat_title) values (\"'+request.body.category+'\")', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      //console.log("Data is "+results);
+      //data=results;
+    });
+  }  
+  //console.log('message is '+message);
+  response.redirect('/admin/categories');
+});
+
+app.post("/edit_category", (request, response) => {
+  //console.log("Edit "+request.body.category);
+  if (request.body.category=="") {
+    message = "Please enter a category";
+  } else {
+    message="Added new category";
+    connection.query('UPDATE categories SET cat_title = (\"'+request.body.edit_category+'\" WHERE cat_title=\"+request.body.categoryName+")', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
@@ -78,12 +97,27 @@ app.post("/add_category", (request, response) => {
   response.redirect('/admin/categories');
 });
 
-app.get("/delete_category", async (request, response) => {
-  //let results1;
-  async function delQuery() {
-    fetchQuery(request, response);
-  }
-  await delQuery().then(()=>{rerun(request, response)});
+
+app.get("/delete_category", (request, response) => {
+  new Promise((resolve) => {
+      connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
+    
+    
+        if (error) {
+          console.log("Connection error");
+          throw error;
+          //reject(results);
+        }
+        
+        console.log('Deleted'+request.query.del);
+        message="Deleted "+request.query.del;
+        console.log("Results are: "+results);
+        resolve(response.redirect('/admin/categories'));
+        //return results;
+      
+      });
+      
+    });
   
   
   //response.redirect('/admin/categories');
@@ -91,35 +125,44 @@ app.get("/delete_category", async (request, response) => {
 
 
 
-app.get("/admin", (request, response) => {
-  
-  
-  response.render('admin/index', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts
-                           });
-  //response.sendFile(__dirname + "/views/index.html");
-});
+
 
 app.get("/admin/categories", (request, response) => {
-  
-  async function categoryQuery() {
-    await new Promise((resolve) => {
+  let categoryToEdit;
+  //async function categoryQuery() {
+    /*await */new Promise((resolve) => {
       connection.query('SELECT * from categories', function (error, results, fields) {
         if (error) {
           console.log("Connection error");
           throw error;
         }
         //console.log('The solution is: ', results);
-        data = results;
-      });
-      resolve();
-    })
-  }
-  
-  categoryQuery().then(()=>response.render('admin/categories', { userData: data,
-                             userMessage: message,
-                              edit: request.query.edit
+        //data = results;
+        Object.keys(results).forEach((key) => {
+          if (results[key].cat_id == request.query.edit) {
+            categoryToEdit = results[key].cat_title;
+            console.log("we are going to edit "+categoryToEdit);
+          }
+        });
+        resolve(response.render('admin/categories', { userData: results,
+                             userMessage: message+", "+"count is "+data.length,
+                              categoryName: categoryToEdit
                            }));
+      });
+      
+    })
+  //}
+  console.log("count is "+data.length);
+  //categoryQuery();
+  //response.sendFile(__dirname + "/views/index.html");
+});
+
+app.get("/admin", (request, response) => {
+  
+  console.log("rendering admin");
+  response.render('admin/index', { title: 'User List', userData: data,
+                             title: 'User List', userPosts: posts
+                           });
   //response.sendFile(__dirname + "/views/index.html");
 });
 
@@ -141,30 +184,4 @@ const listener = app.listen(process.env.PORT, () => {
 
 
 
-var fetchQuery = function(request, response) {
-  new Promise((resolve) => {
-      connection.query('DELETE from categories WHERE cat_id=\"'+request.query.del+'\"', function (error, results, fields) {
-    
-    
-        if (error) {
-          console.log("Connection error");
-          throw error;
-          //reject(results);
-        }
-        
-        console.log('Deleted'+request.query.del);
-        message="Deleted "+request.query.del;
-        console.log("Results are: "+results);
-        resolve(results);
-        //return results;
-      
-      });
-      
-    });
-    
-}
 
-var rerun = function(req, res) {
-  res.redirect('/admin/categories')
-                 ;
-}
