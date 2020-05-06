@@ -45,19 +45,19 @@
                         
                       <!-- Edit Category-->
                       <%
-                        if (edit!=null) {
+                        if (categoryName!=null) {
                           
                         
                       
                       %>
-                        <form action="/add_category" method="POST">
+                        <form action="/edit_category" method="POST">
                         <div class="form-group">
-                          <label>Add New Category</label>
-                          <input type="text" name="category" placeholder="Category" class="form-control">
+                          <label>Edit Category</label>
+                          <input type="text" name="edit_category" value="<%=categoryName%>" placeholder="Category" class="form-control">
                         </div>
                         <div class="form-group">
                           <button class="btn btn-success" name="btn_category" type="submit">
-                          Add Category
+                          Edit Category
                         </button>
                         </div>
                         <div>
@@ -84,7 +84,7 @@
                         
                         <%
                         if(userData.length!=0){
-                          console.log(typeof userData);
+                          //console.log(typeof userData);
                           Object.keys(userData).forEach((key) => {
                         %>
                         <tr>
@@ -95,8 +95,8 @@
                         </tr>
                         <% 
                           });
-                        } else {
-                          console.log("No data");
+                        } else { %>No Data<%
+                          
                         }
                         %>
                        
