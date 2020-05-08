@@ -1,0 +1,74 @@
+<!-- Header section -->
+<%- include("partials/header") %>
+
+<body>
+
+    <div id="wrapper">
+
+      <%- include("partials/nav") %>  
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            
+                            <small>Author</small>
+                        </h1>
+                    <table class="table table-stripped">
+                      <tr>
+                        <td>ID</td>
+                        <td>Author</td>
+                        <td>Title</td>
+                        <td>Category</td>
+                        <td>Status</td>
+                        <td>Img</td>
+                        <td>Comment</td>
+                        <td>Date</td>
+                      
+                      </tr>
+                      
+                      <% 
+                      if(userData.length!=0) {
+                        Object.keys(userData).forEach((key) => {
+                      %>    
+                          <tr>
+                            <td><%=userData[key].post_id%></td>
+                            <td><%=userData[key].post_author%></td>
+                            <td><%=userData[key].post_title%></td>
+                            <td><%=userData[key].post_cat_id%></td>
+                            <td><%=userData[key].post_status%></td>
+                            <td><img width="50" height="50" class="img-responsive" src="<%=userData[key].post_img%>"></td>
+                            <td><%=userData[key].post_comment_count%></td>
+                            <td><%=userData[key].post_date%></td>
+                          </tr>
+                      
+                      <%
+                        });
+                      }
+                      
+                      
+                      %>
+                     
+                    </table> 
+                      
+                    
+                    
+                       
+                        
+                      
+                    
+                  </div>
+                </div>
+                <!-- /.row -->
+              </div>
+            <!-- /.container-fluid -->
+
+          </div>
+          <!-- /#page-wrapper -->
+
+
+        <%- include("partials/footer") %>        

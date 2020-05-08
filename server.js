@@ -83,8 +83,10 @@ app.post("/edit_category", (request, response) => {
   if (request.body.category=="") {
     message = "Please enter a category";
   } else {
-    message="Added new category";
-    connection.query('UPDATE categories SET cat_title = (\"'+request.body.edit_category+'\" WHERE cat_title=\"+request.body.categoryName+")', function (error, results, fields) {
+    message="<p class=\"alert alert-success\">Updated category name</p>";
+    console.log("The old category was "+request.body.old_category_name);
+    console.log("The new category is "+request.body.new_category_name);
+    connection.query('UPDATE categories SET cat_title = \"'+request.body.new_category_name+'\" WHERE cat_title=\"'+request.body.old_category_name+'\"', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
@@ -120,7 +122,7 @@ app.get("/delete_category", (request, response) => {
     });
   
   
-  //response.redirect('/admin/categories');
+ 
 });
 
 
@@ -129,32 +131,28 @@ app.get("/delete_category", (request, response) => {
 
 app.get("/admin/categories", (request, response) => {
   let categoryToEdit;
-  //async function categoryQuery() {
-    /*await */new Promise((resolve) => {
+  
+    new Promise((resolve) => {
       connection.query('SELECT * from categories', function (error, results, fields) {
         if (error) {
           console.log("Connection error");
           throw error;
         }
-        //console.log('The solution is: ', results);
-        //data = results;
         Object.keys(results).forEach((key) => {
           if (results[key].cat_id == request.query.edit) {
             categoryToEdit = results[key].cat_title;
-            console.log("we are going to edit "+categoryToEdit);
+            
           }
         });
         resolve(response.render('admin/categories', { userData: results,
-                             userMessage: message+", "+"count is "+data.length,
+                             userMessage: message,
                               categoryName: categoryToEdit
                            }));
       });
       
     })
-  //}
-  console.log("count is "+data.length);
-  //categoryQuery();
-  //response.sendFile(__dirname + "/views/index.html");
+  
+  
 });
 
 app.get("/admin", (request, response) => {
@@ -164,6 +162,31 @@ app.get("/admin", (request, response) => {
                              title: 'User List', userPosts: posts
                            });
   //response.sendFile(__dirname + "/views/index.html");
+});
+
+app.get("/admin/all_posts", (request, response) => {
+  
+  console.log("rendering posts");
+  new Promise((resolve) => {
+      connection.query('SELECT * from posts', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        /*Object.keys(results).forEach((key) => {
+          if (results[key].cat_id == request.query.edit) {
+            //categoryToEdit = results[key].cat_title;
+            
+          }
+        });*/
+        resolve(response.render('admin/all_posts', { userData: results,
+                             userMessage: message
+                              
+                           }));
+      });
+      
+    });
+  
 });
 
 // https://expressjs.com/en/starter/basic-routing.html
