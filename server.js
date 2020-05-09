@@ -164,7 +164,7 @@ app.get("/admin", (request, response) => {
   //response.sendFile(__dirname + "/views/index.html");
 });
 
-app.get("/admin/all_posts", (request, response) => {
+app.get("/admin/posts", (request, response) => {
   
   console.log("rendering posts");
   new Promise((resolve) => {
@@ -179,10 +179,10 @@ app.get("/admin/all_posts", (request, response) => {
             
           }
         });*/
-        resolve(response.render('admin/all_posts', { userData: results,
-                             userMessage: message
-                              
-                           }));
+        resolve(response.render('admin/posts', {  userData: results,
+                                                  userMessage: message,
+                                                  option: 'add_post'
+        }));
       });
       
     });
