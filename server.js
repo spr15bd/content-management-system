@@ -7,6 +7,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
+let formidable = require('formidable');
 app.use(express.json());       // to support JSON-encoded bodies
 app.set("view engine","ejs");
 
@@ -78,8 +79,33 @@ app.post("/add_category", (request, response) => {
   response.redirect('/admin/categories');
 });
 
+app.post("/add_post", (request, response) => {
+  console.log("in add_post");
+  if (request.body.category=="") {
+    message = "Please enter a category";
+  } else {
+    message="Added new post";
+    console.log(message);
+    const form = formidable({ multiples: true });
+    form.parse(request, function (err, fields, files) {
+      console.log('File uploaded');
+      response.write('File uploaded');
+      //response.end();
+    });
+    
+    /*connection.query('INSERT INTO posts (post_cat_id, post_title, post_author, post_date, post_img, post_content, post_tags, post_comment_count, post_status) values (\"'+request.body.post_cat_id+'\", \"'+request.body.post_title+'\", \"'+request.body.post_author+'\", now, \"'+request.body.post_img+'\", \"'+request.body.post_content+'\", \"'+request.body.post_tags+'\", 4, \"'+request.body.post_status+'\")', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      //console.log("Data is "+results);
+      //data=results;
+    });*/
+  }  
+  response.redirect('/admin/posts');
+});
+
 app.post("/edit_category", (request, response) => {
-  //console.log("Edit "+request.body.category);
   if (request.body.category=="") {
     message = "Please enter a category";
   } else {
