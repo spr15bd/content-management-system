@@ -7,7 +7,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
-let formidable = require('formidable');
+//let formidable = require('formidable');
 app.use(express.json());       // to support JSON-encoded bodies
 app.set("view engine","ejs");
 
@@ -80,29 +80,35 @@ app.post("/add_category", (request, response) => {
 });
 
 app.post("/add_post", (request, response) => {
+  console.log("Post status is "+ request.body.post_status);
   console.log("in add_post");
-  if (request.body.category=="") {
+  if (request.body.post_content=="") {
     message = "Please enter a category";
   } else {
     message="Added new post";
     console.log(message);
-    const form = formidable({ multiples: true });
+    /*let form = new formidable.IncomingForm();
     form.parse(request, function (err, fields, files) {
-      console.log('File uploaded');
-      response.write('File uploaded');
+      let fileToUpload = request.body.image_name;
+      
+      let oldPath = files.fileToUpload.path;
+      console.log('File uploaded to '+oldPath);
+      //response.write('File uploaded');
       //response.end();
     });
-    
-    /*connection.query('INSERT INTO posts (post_cat_id, post_title, post_author, post_date, post_img, post_content, post_tags, post_comment_count, post_status) values (\"'+request.body.post_cat_id+'\", \"'+request.body.post_title+'\", \"'+request.body.post_author+'\", now, \"'+request.body.post_img+'\", \"'+request.body.post_content+'\", \"'+request.body.post_tags+'\", 4, \"'+request.body.post_status+'\")', function (error, results, fields) {
+    */
+    connection.query('INSERT INTO posts (post_cat_id, post_title, post_author, post_date, post_img, post_content, post_tags, post_comment_count, post_status) values (\"'+request.body.post_cat_id+'\", \"'+request.body.post_title+'\", \"'+request.body.post_author+'\", now(), \"https://cdn.glitch.com/48fe6ce9-7345-460e-b0ab-288a73ffe14d%2FenemyBullet.png?v=1587678871997\", \"'+request.body.post_content+'\", \"'+request.body.post_tags+'\", 4, \"'+request.body.post_status+'\")', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
       }
-      //console.log("Data is "+results);
-      //data=results;
-    });*/
+      
+    });
   }  
-  response.redirect('/admin/posts');
+  //response.redirect('/admin/posts?');
+  response.render('admin/posts', {  userMessage: message,
+                                                  option: 'add_post'
+        });
 });
 
 app.post("/edit_category", (request, response) => {
@@ -207,7 +213,7 @@ app.get("/admin/posts", (request, response) => {
         });*/
         resolve(response.render('admin/posts', {  userData: results,
                                                   userMessage: message,
-                                                  option: 'add_post'
+                                                  option: request.query.option
         }));
       });
       
