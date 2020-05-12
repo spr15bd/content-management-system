@@ -22,8 +22,8 @@
       <td><img width="50" height="50" class="img-responsive" src="<%=userData[key].post_img%>"></td>
       <td><%=userData[key].post_comment_count%></td>
       <td><%=userData[key].post_date%></td>
-      <td><a href="all_posts?del=<%=userData[key].post_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
-      <td><a href="all_posts?del=<%=userData[key].post_id%>" class="btn btn-success"><span class="fa fa-pencil"></span></a></td>
+      <td><a href="/delete_post?del=<%=userData[key].post_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+      <td><a href="/admin/posts?edit=<%=userData[key].post_id%>" class="btn btn-success"><span class="fa fa-pencil"></span></a></td>
     </tr>
   <%
       });
