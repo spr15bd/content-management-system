@@ -157,7 +157,30 @@ app.get("/delete_category", (request, response) => {
  
 });
 
-
+app.get("/delete_post", (request, response) => {
+  new Promise((resolve) => {
+      connection.query('DELETE from posts WHERE post_id=\"'+request.query.del+'\"', function (error, results, fields) {
+    
+    
+        if (error) {
+          console.log("Connection error");
+          throw error;
+          //reject(results);
+        }
+        
+        console.log('Deleted'+request.query.del);
+        message="Deleted "+request.query.del;
+        console.log("Results are: "+results);
+        resolve(response.redirect('/admin/posts'));
+        //return results;
+      
+      });
+      
+    });
+  
+  
+ 
+});
 
 
 
@@ -197,7 +220,7 @@ app.get("/admin", (request, response) => {
 });
 
 app.get("/admin/posts", (request, response) => {
-  
+  let postToEditId;
   console.log("rendering posts");
   new Promise((resolve) => {
       connection.query('SELECT * from posts', function (error, results, fields) {
@@ -205,14 +228,15 @@ app.get("/admin/posts", (request, response) => {
           console.log("Connection error");
           throw error;
         }
-        /*Object.keys(results).forEach((key) => {
-          if (results[key].cat_id == request.query.edit) {
-            //categoryToEdit = results[key].cat_title;
+        Object.keys(results).forEach((key) => {
+          if (results[key].post_id == request.query.edit) {
+            postToEditId = results[key].postId;
             
           }
-        });*/
+        });
         resolve(response.render('admin/posts', {  userData: results,
                                                   userMessage: message,
+                                                  postToEditId: postToEditId,
                                                   option: request.query.option
         }));
       });
