@@ -23,7 +23,7 @@
       <td><%=userData[key].post_comment_count%></td>
       <td><%=userData[key].post_date%></td>
       <td><a href="/delete_post?del=<%=userData[key].post_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
-      <td><a href="/admin/posts?edit=<%=userData[key].post_id%>" class="btn btn-success"><span class="fa fa-pencil"></span></a></td>
+      <td><a href="/admin/posts?edit=<%=userData[key].post_id%>&option=edit_post" class="btn btn-success"><span class="fa fa-pencil"></span></a></td>
     </tr>
   <%
       });
