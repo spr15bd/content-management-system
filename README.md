@@ -1,6 +1,6 @@
-# node content management system
+# hello-express
 
-A cms that serves a webpage, its resources, and some data
+A server that serves a webpage, its resources, and some data
 
 
 ## Your Project
