@@ -83,7 +83,7 @@ app.post("/add_post", (request, response) => {
   console.log("Post status is "+ request.body.post_status);
   console.log("in add_post");
   if (request.body.post_content=="") {
-    message = "Please enter a category";
+    message = "Please enter a post";
   } else {
     message="Added new post";
     console.log(message);
@@ -130,6 +130,35 @@ app.post("/edit_category", (request, response) => {
   console.log('message is '+message);
   response.redirect('/admin/categories');
 });
+
+app.post("/edit_post", (request, response) => {
+  console.log("Post status is "+ request.body.post_status);
+  console.log("in add_post");
+  if (request.body.post_content=="") {
+    message = "Please enter a post";
+  } else {
+    message="Amending post";
+    console.log(message);
+    /*let form = new formidable.IncomingForm();
+    form.parse(request, function (err, fields, files) {
+      let fileToUpload = request.body.image_name;
+      
+      let oldPath = files.fileToUpload.path;
+      console.log('File uploaded to '+oldPath);
+      //response.write('File uploaded');
+      //response.end();
+    });
+    */
+    connection.query('UPDATE posts SET post_title=\"'+request.body.post_title+'\", post_author=\"'+request.body.post_author+'\", post_date=now(), post_img=\"https://cdn.glitch.com/48fe6ce9-7345-460e-b0ab-288a73ffe14d%2FenemyBullet.png?v=1587678871997\", post_content=\"'+request.body.post_content+'\", post_tags=\"'+request.body.post_tags+'\", post_comment_count=2, post_status=\"'+request.body.post_status+'\" WHERE post_id=\"'+request.body.post+'\"', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      
+    });
+    response.redirect('/admin/posts');
+  }
+}); 
 
 
 app.get("/delete_category", (request, response) => {
