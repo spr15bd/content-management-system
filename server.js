@@ -149,7 +149,7 @@ app.post("/edit_post", (request, response) => {
       //response.end();
     });
     */
-    connection.query('UPDATE posts SET post_title=\"'+request.body.post_title+'\", post_author=\"'+request.body.post_author+'\", post_date=now(), post_img=\"https://cdn.glitch.com/48fe6ce9-7345-460e-b0ab-288a73ffe14d%2FenemyBullet.png?v=1587678871997\", post_content=\"'+request.body.post_content+'\", post_tags=\"'+request.body.post_tags+'\", post_comment_count=2, post_status=\"'+request.body.post_status+'\" WHERE post_id=\"'+request.body.post+'\"', function (error, results, fields) {
+    connection.query('UPDATE posts SET post_title=\"'+request.body.post_title+'\", post_cat_id=\"'+request.body.cat_name+'\", post_author=\"'+request.body.post_author+'\", post_date=now(), post_img=\"https://cdn.glitch.com/48fe6ce9-7345-460e-b0ab-288a73ffe14d%2FenemyBullet.png?v=1587678871997\", post_content=\"'+request.body.post_content+'\", post_tags=\"'+request.body.post_tags+'\", post_comment_count=2, post_status=\"'+request.body.post_status+'\" WHERE post_id=\"'+request.body.post+'\"', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
