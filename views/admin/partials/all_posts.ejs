@@ -21,11 +21,11 @@
       <td><%=userData[key].post_id%></td>
       <td><%=userData[key].post_author%></td>
       <td><%=userData[key].post_title%></td>
-      <td><% Object.keys(categories).forEach((key) => {
-      
-              if (categories[key].cat_id==userData[key].post_cat_id) {  %>
+      <td><% Object.keys(categories).forEach((catKey) => {
+              
+              if (categories[catKey].cat_id==userData[key].post_cat_id) {  %>
         
-                <%=categories[key].cat_title%><%
+                <%=categories[catKey].cat_title%><%
               }
           })
           %></td>

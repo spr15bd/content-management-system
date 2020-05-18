@@ -107,7 +107,8 @@ app.post("/add_post", (request, response) => {
   }  
   //response.redirect('/admin/posts?');
   response.render('admin/posts', {  userMessage: message,
-                                                  option: 'add_post'
+                                    option: 'add_post',
+                                    categories: request.body.categories
         });
 });
 
@@ -241,8 +242,17 @@ app.get("/admin/categories", (request, response) => {
 
 app.get("/admin", (request, response) => {
   
-  console.log("rendering admin");
+  
   response.render('admin/index', { title: 'User List', userData: data,
+                             title: 'User List', userPosts: posts
+                           });
+  //response.sendFile(__dirname + "/views/index.html");
+});
+
+app.get("/category", (request, response) => {
+  
+  console.log("rendering category");
+  response.render('category', { title: 'User List', userData: data,
                              title: 'User List', userPosts: posts
                            });
   //response.sendFile(__dirname + "/views/index.html");
