@@ -44,6 +44,36 @@ connection.query('SELECT * from posts', function (error, results, fields) {
 app.use(express.static("public"));
 
 
+app.get("/category", (request, response) => {
+  connection.query('SELECT * from posts WHERE post_cat_id=\"'+request.query.category+'\"', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    search_posts = results;
+    response.render('index', { title: 'User List', userData: data,
+                               title: 'User List', userPosts: search_posts
+    });
+  });
+});
+
+app.get("/post", (request, response) => {
+  connection.query('SELECT * from posts WHERE post_id = \"'+request.query.post_id+'\"', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    search_posts = results;
+    response.render('post', { title: 'User List', userData: data,
+                               title: 'User List', userPosts: search_posts
+    });
+  });
+    
+  
+});
+
 app.post("/search", (request, response) => {
   console.log(request.body.search_text);
   connection.query('SELECT * from posts WHERE post_tags LIKE \"'+request.body.search_text+'\"', function (error, results, fields) {

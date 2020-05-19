@@ -1,55 +1,139 @@
 <!-- This is a static file -->
 <!-- served from your routes in server.js -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Blog Post</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CMS made with Glitch">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/blog-post.css" rel="stylesheet">
+<!-- Header section -->
+<%- include("partials/header") %>
+    <!-- Navigation -->
+    <%- include("partials/nav") %>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+           
+            
+        
+  
+
+
+            
+            
+            
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+             <%
+              console.log("userPosts: "+userPosts.length);
+              if(userPosts.length!=0){
+                
+                userPosts.forEach(function(posts){
+                  post_id = posts.post_id;
+                  post_title = posts.post_title;
+                  post_author = posts.post_author;
+                  post_date = posts.post_date;
+                  post_img = posts.post_img;
+                  post_content = posts.post_content;
+                  post_tags = posts.post_tags;
+
+
+              %>
+              
+
+                <h1 class="page-header">
+                    Page Heading
+                    <small>Secondary Text</small>
+                </h1>
+
+                <!-- First Blog Post -->
+                <h2>
+                    <a href="/post?post_id=<%=post_id%>"><%=post_title%></a>
+                </h2>
+                <p class="lead">
+                    by <a href="index.php"><%=post_author%></a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on <%=post_date%></p>
+                <hr>
+                <img class="img-responsive" src=<%=post_img%> alt="">
+                <hr>
+                <p><%=post_content%></p>
+                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                <hr>
+
+                
+                
+
+           
+          <%  });} else { %> <h1>Records not found.</h1> <%
+            
+          } %>
+              
+            <!-- Blog Comments -->
+
+                <!-- Comments Form -->
+                <div class="well">
+                    <h4>Leave a Comment:</h4>
+                    <form role="form">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+                <hr>
+
+                <!-- Posted Comments -->
+
+                <!-- Comment -->
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="http://placehold.it/64x64" alt="">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">Start Bootstrap
+                            <small>August 25, 2014 at 9:30 PM</small>
+                        </h4>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    </div>
+                </div>
+
+                <!-- Comment -->
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="http://placehold.it/64x64" alt="">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">Start Bootstrap
+                            <small>August 25, 2014 at 9:30 PM</small>
+                        </h4>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                        <!-- Nested Comment -->
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object" src="http://placehold.it/64x64" alt="">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">Nested Start Bootstrap
+                                    <small>August 25, 2014 at 9:30 PM</small>
+                                </h4>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            </div>
+                        </div>
+                        <!-- End Nested Comment -->
+                    </div>
+                </div>  
+              
+              
+          </div>
+            <%- include("partials/side_bar") %>
+
+        <hr>
+
+        <!-- Footer -->
+        <%- include("partials/footer") %>
+
+      <!-- include the Glitch button to show what the webpage is about and
+            to make it easier for folks to view source and remix -->
+      <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+      <script src="https://button.glitch.me/button.js"></script>
+
     
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
-
-    <!-- import the webpage's client-side javascript file -->
-    <script src="/script.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>A Dream of the Future</h1>
-    </header>
-
-    <main>
-      <h2>Oh hi,</h2>
-
-      <p>Tell me your hopes and dreams:</p>
-
-      <form>
-        <label>
-          New Dream
-          <input name="dream" type="text" maxlength="100" required placeholder="Dreams!">
-        </label>
-        <button type="submit" id="submit-dream">Add Dream</button>
-      </form>
-
-      <section class="dreams">
-        <ul id="dreams">
-          <em>loading dreams&hellip;</em>
-        </ul>
-      </section>
-    </main>
-
-    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
-
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js"></script>
-  </body>
-</html>
