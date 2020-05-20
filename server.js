@@ -270,6 +270,33 @@ app.get("/admin/categories", (request, response) => {
   
 });
 
+app.get("/admin/comments", (request, response) => {
+  let categoryToEdit;
+  
+    new Promise((resolve) => {
+      connection.query('SELECT * from comments', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        Object.keys(results).forEach((key) => {
+          if (results[key].cat_id == request.query.edit) {
+            categoryToEdit = results[key].cat_title;
+            
+          }
+        });
+        resolve(response.render('admin/comments', { userData: results,
+                             userMessage: message,
+                              categoryName: categoryToEdit,
+                              option: 'all_comments'                     
+                           }));
+      });
+      
+    })
+  
+  
+});
+
 app.get("/admin", (request, response) => {
   
   
