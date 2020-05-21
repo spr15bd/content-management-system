@@ -71,11 +71,20 @@
                 <!-- Comments Form -->
                 <div class="well">
                     <h4>Leave a Comment:</h4>
-                    <form role="form">
+                    <form action="" method="post" role="form">
+                        <label for="author">Author</label>
+                        <div class="form-group">
+                            <input type="text" name="author" placeholder="Author" class="form-control">
+                        </div>
+                        <label for="author">Email</label>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email" class="form-control">
+                        </div>
+                        <label for="author">Comment</label>
                         <div class="form-group">
                             <textarea class="form-control" rows="3"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary" name="btn_submit">Submit</button>
                     </form>
                 </div>
 
