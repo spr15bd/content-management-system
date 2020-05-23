@@ -29,7 +29,7 @@
                               
                               Object.keys(userData).forEach((key) => {
                             %>
-                                <li><a href="#"><%=userData[key].cat_title%></a></li>
+                                <li><a href="/category?category=<%=userData[key].cat_id%>"><%=userData[key].cat_title%></a></li>
                             <%  
                               }) 
                             }

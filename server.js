@@ -44,6 +44,36 @@ connection.query('SELECT * from posts', function (error, results, fields) {
 app.use(express.static("public"));
 
 
+app.get("/category", (request, response) => {
+  connection.query('SELECT * from posts WHERE post_cat_id=\"'+request.query.category+'\"', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    search_posts = results;
+    response.render('index', { title: 'User List', userData: data,
+                               title: 'User List', userPosts: search_posts
+    });
+  });
+});
+
+app.get("/post", (request, response) => {
+  connection.query('SELECT * from posts WHERE post_id = \"'+request.query.post_id+'\"', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    search_posts = results;
+    response.render('post', { title: 'User List', userData: data,
+                               title: 'User List', userPosts: search_posts
+    });
+  });
+    
+  
+});
+
 app.post("/search", (request, response) => {
   console.log(request.body.search_text);
   connection.query('SELECT * from posts WHERE post_tags LIKE \"'+request.body.search_text+'\"', function (error, results, fields) {
@@ -79,11 +109,41 @@ app.post("/add_category", (request, response) => {
   response.redirect('/admin/categories');
 });
 
+app.post("/add_comment", (request, response) => {
+  //console.log("Post status is "+ request.body.post_status);
+  console.log("in add_comment");
+  if (request.body.author=="") {
+    message = "Please enter an author";
+  } else {
+    message="Added new comment";
+    console.log(message);
+    /*let form = new formidable.IncomingForm();
+    form.parse(request, function (err, fields, files) {
+      let fileToUpload = request.body.image_name;
+      
+      let oldPath = files.fileToUpload.path;
+      console.log('File uploaded to '+oldPath);
+      //response.write('File uploaded');
+      //response.end();
+    });
+    */
+    connection.query('INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) values (\"'+request.query.post_id+'\", \"'+request.body.author+'\", \"'+request.body.email+'\", \"'+request.body.comment+'\", \"approved\", now())', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      message="Your comment has been submitted";
+    });
+  }  
+  //response.redirect('/admin/posts?');
+  response.redirect('post');
+});
+
 app.post("/add_post", (request, response) => {
   console.log("Post status is "+ request.body.post_status);
   console.log("in add_post");
   if (request.body.post_content=="") {
-    message = "Please enter a category";
+    message = "Please enter a post";
   } else {
     message="Added new post";
     console.log(message);
@@ -107,7 +167,8 @@ app.post("/add_post", (request, response) => {
   }  
   //response.redirect('/admin/posts?');
   response.render('admin/posts', {  userMessage: message,
-                                                  option: 'add_post'
+                                    option: 'add_post',
+                                    categories: request.body.categories
         });
 });
 
@@ -130,6 +191,35 @@ app.post("/edit_category", (request, response) => {
   console.log('message is '+message);
   response.redirect('/admin/categories');
 });
+
+app.post("/edit_post", (request, response) => {
+  console.log("Post status is "+ request.body.post_status);
+  console.log("in add_post");
+  if (request.body.post_content=="") {
+    message = "Please enter a post";
+  } else {
+    message="Amending post";
+    console.log(message);
+    /*let form = new formidable.IncomingForm();
+    form.parse(request, function (err, fields, files) {
+      let fileToUpload = request.body.image_name;
+      
+      let oldPath = files.fileToUpload.path;
+      console.log('File uploaded to '+oldPath);
+      //response.write('File uploaded');
+      //response.end();
+    });
+    */
+    connection.query('UPDATE posts SET post_title=\"'+request.body.post_title+'\", post_cat_id=\"'+request.body.cat_name+'\", post_author=\"'+request.body.post_author+'\", post_date=now(), post_img=\"https://cdn.glitch.com/48fe6ce9-7345-460e-b0ab-288a73ffe14d%2FenemyBullet.png?v=1587678871997\", post_content=\"'+request.body.post_content+'\", post_tags=\"'+request.body.post_tags+'\", post_comment_count=2, post_status=\"'+request.body.post_status+'\" WHERE post_id=\"'+request.body.post+'\"', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      
+    });
+    response.redirect('/admin/posts');
+  }
+}); 
 
 
 app.get("/delete_category", (request, response) => {
@@ -210,18 +300,67 @@ app.get("/admin/categories", (request, response) => {
   
 });
 
+app.get("/admin/comments", (request, response) => {
+  let categoryToEdit;
+  
+    new Promise((resolve) => {
+      connection.query('SELECT * from comments', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        Object.keys(results).forEach((key) => {
+          if (results[key].cat_id == request.query.edit) {
+            categoryToEdit = results[key].cat_title;
+            
+          }
+        });
+        resolve(response.render('admin/comments', { userData: results,
+                             userMessage: message,
+                              categoryName: categoryToEdit,
+                              option: 'all_comments'                     
+                           }));
+      });
+      
+    })
+  
+  
+});
+
 app.get("/admin", (request, response) => {
   
-  console.log("rendering admin");
+  
   response.render('admin/index', { title: 'User List', userData: data,
                              title: 'User List', userPosts: posts
                            });
   //response.sendFile(__dirname + "/views/index.html");
 });
 
+app.get("/category", (request, response) => {
+  
+  console.log("rendering category");
+  response.render('category', { title: 'User List', userData: data,
+                             title: 'User List', userPosts: posts
+                           });
+  //response.sendFile(__dirname + "/views/index.html");
+});
+
 app.get("/admin/posts", (request, response) => {
-  let postToEditId;
-  console.log("rendering posts");
+  let postToEdit;
+  let categories;
+  
+  // send categories data to edit post page since there is an option to change category with a dropdown
+  //new Promise((resolve) => {
+      connection.query('SELECT * from categories', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        
+        categories=results;
+      });
+      
+    //});
   new Promise((resolve) => {
       connection.query('SELECT * from posts', function (error, results, fields) {
         if (error) {
@@ -230,13 +369,14 @@ app.get("/admin/posts", (request, response) => {
         }
         Object.keys(results).forEach((key) => {
           if (results[key].post_id == request.query.edit) {
-            postToEditId = results[key].postId;
+            postToEdit = results[key];
             
           }
         });
         resolve(response.render('admin/posts', {  userData: results,
+                                                  categories: categories,
                                                   userMessage: message,
-                                                  postToEditId: postToEditId,
+                                                  postToEdit: postToEdit,
                                                   option: request.query.option
         }));
       });

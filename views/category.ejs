@@ -25,7 +25,6 @@
               if(userPosts.length!=0){
                 
                 userPosts.forEach(function(posts){
-                  post_id = posts.post_id;
                   post_title = posts.post_title;
                   post_author = posts.post_author;
                   post_date = posts.post_date;
@@ -44,7 +43,7 @@
 
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="/post?post_id=<%=post_id%>"><%=post_title%></a>
+                    <a href="/post"><%=post_title%></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><%=post_author%></a>

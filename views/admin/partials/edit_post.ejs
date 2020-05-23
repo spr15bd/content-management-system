@@ -1,8 +1,8 @@
 
    
 
-       
-
+       <% if (postToEdit!=null) {
+       %>
             <div class="container-fluid">
 
                 <!-- Page Heading -->
@@ -10,17 +10,13 @@
                     <div class="col">
                       <!-- Add a new category -->
                     <!--<div class="col-lg-6">-->
-                      <form action="/add_post" method="POST">
+                      <form action="/edit_post?post=postToEdit" method="POST">
                         <div class="form-group">
                           <label>Post Title</label>
-                          <input type="text" name="post_title" placeholder="Post Title" class="form-control">
+                          <input type="text" name="post_title" placeholder="Post Title" value=<%=postToEdit.post_title%> class="form-control">
                         </div>
-                        <!--<div class="form-group">
-                          <label>Post Category ID</label>
-                          <input type="text" name="post_cat_id" placeholder="Post Category ID" class="form-control">
-                        </div>-->
-                        <div>
-                          <select name="post_cat_id" class="form-control">
+                        <div class="form-group">
+                          <select name="cat_name" class="form-control">
                             <%
                             if(categories.length!=0){
                               Object.keys(categories).forEach((key) => {
@@ -34,28 +30,28 @@
                         </div>
                         <div class="form-group">
                           <label>Post Author</label>
-                          <input type="text" name="post_author" placeholder="Post Author" class="form-control">
-                          <input type="hidden" name="categories" value=<%=categories%></input>
+                          <input type="text" name="post_author" placeholder="Post Author" value=<%=postToEdit.post_author%> class="form-control">
                         </div>
                         <div class="form-group">
                           <label>Post Status</label>
-                          <input type="text" name="post_status" placeholder="Post Status" class="form-control">
+                          <input type="text" name="post_status" placeholder="Post Status" value=<%=postToEdit.post_status%> class="form-control">
                         </div>
                         <div class="form-group">
                           <label>Image</label>
-                          <input type="file" name="image_name" placeholder="Post Author" class="form-control">
+                          <input type="file" name="image_name" placeholder="Post Author" value=<%=postToEdit.post_author%> class="form-control">
                         </div>
                         <div class="form-group">
                           <label>Post Tags</label>
-                          <input type="text" name="post_tags" placeholder="Post Tags" class="form-control">
+                          <input type="text" name="post_tags" placeholder="Post Tags" value=<%=postToEdit.post_tags%> class="form-control">
                         </div>
                         <div class="form-group">
                           <label>Post Content</label>
-                          <textarea name="post_content" id="" cols="30" rows="10" class="form-control"></textarea>
+                          <textarea name="post_content" id="" cols="30" rows="10" class="form-control"><%=postToEdit.post_content%></textarea>
+                          <input type="hidden" name="post" value="<%=postToEdit.post_id%>">
                         </div>
                         <div class="form-group">
                           <button class="btn btn-success" name="btn_category" type="submit">
-                          Add Post
+                          Edit Post
                         </button>
                         </div>
                         <div>
@@ -77,4 +73,10 @@
             <!-- /.container-fluid -->
 
       
-       
+      <% 
+      } else {
+      %>
+        <h2>No post specified  </h2>    
+      <%
+       }
+      %>
