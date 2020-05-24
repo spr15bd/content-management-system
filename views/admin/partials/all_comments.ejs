@@ -25,7 +25,9 @@
       <td><%=userData[key].comment_content%></td>
       <td><%=userData[key].comment_email%></td>
       <td><%=userData[key].comment_status%></td>
-      <td><p>Something</p></td>
+      
+      <td><a href="/post?post_id=<%=userData[key].comment_post_id%>"></a></td>
+      
       <td><a href="#">Approve</a></td>
       <td><a href="#">Unapprove</a></td>
       <td><%=userData[key].comment_date%></td>
