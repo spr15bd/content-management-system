@@ -59,15 +59,24 @@ app.get("/category", (request, response) => {
 });
 
 app.get("/post", (request, response) => {
+  connection.query('SELECT * from categories', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    data = results;
+    
+  });
+  
   connection.query('SELECT * from posts WHERE post_id = \"'+request.query.post_id+'\"', function (error, results, fields) {
     if (error) {
       console.log("Connection error");
       throw error;
     }
     console.log('The solution is: ' +results);
-    search_posts = results;
-    response.render('post', { title: 'User List', userData: data,
-                               title: 'User List', userPosts: search_posts
+    response.render('post', {   title: 'User List', userData: data,
+                               title: 'User List', userPosts: results
     });
   });
     
@@ -116,18 +125,7 @@ app.post("/add_comment", (request, response) => {
     message = "Please enter an author";
   } else {
     message="Added new comment";
-    console.log(message);
-    /*let form = new formidable.IncomingForm();
-    form.parse(request, function (err, fields, files) {
-      let fileToUpload = request.body.image_name;
-      
-      let oldPath = files.fileToUpload.path;
-      console.log('File uploaded to '+oldPath);
-      //response.write('File uploaded');
-      //response.end();
-    });
-    */
-    connection.query('INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) values (\"'+request.query.post_id+'\", \"'+request.body.author+'\", \"'+request.body.email+'\", \"'+request.body.comment+'\", \"approved\", now())', function (error, results, fields) {
+    connection.query('INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) values (\"'+request.body.post_id+'\", \"'+request.body.author+'\", \"'+request.body.email+'\", \"'+request.body.comment+'\", \"approved\", now())', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
@@ -136,7 +134,7 @@ app.post("/add_comment", (request, response) => {
     });
   }  
   //response.redirect('/admin/posts?');
-  response.redirect('post');
+  response.redirect('/post?post_id='+request.body.post_id);
 });
 
 app.post("/add_post", (request, response) => {
@@ -267,9 +265,29 @@ app.get("/delete_post", (request, response) => {
       });
       
     });
-  
-  
- 
+});
+
+
+app.get("/delete_comment", (request, response) => {
+  new Promise((resolve) => {
+      connection.query('DELETE from comments WHERE comment_id=\"'+request.query.del+'\"', function (error, results, fields) {
+    
+    
+        if (error) {
+          console.log("Connection error");
+          throw error;
+          //reject(results);
+        }
+        
+        console.log('Deleted'+request.query.del);
+        message="Deleted "+request.query.del;
+        console.log("Results are: "+results);
+        resolve(response.redirect('/admin/comments'));
+        //return results;
+      
+      });
+      
+    });
 });
 
 
@@ -301,7 +319,18 @@ app.get("/admin/categories", (request, response) => {
 });
 
 app.get("/admin/comments", (request, response) => {
-  let categoryToEdit;
+  let posts;
+  new Promise((resolve) => {
+      connection.query('SELECT * from posts', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        
+        resolve(posts=results);
+      });
+      
+  })
   
     new Promise((resolve) => {
       connection.query('SELECT * from comments', function (error, results, fields) {
@@ -309,15 +338,11 @@ app.get("/admin/comments", (request, response) => {
           console.log("Connection error");
           throw error;
         }
-        Object.keys(results).forEach((key) => {
-          if (results[key].cat_id == request.query.edit) {
-            categoryToEdit = results[key].cat_title;
-            
-          }
-        });
+        
         resolve(response.render('admin/comments', { userData: results,
                              userMessage: message,
-                              categoryName: categoryToEdit,
+                              userPosts: posts|| "no posts",
+                              //categoryName: categoryToEdit,
                               option: 'all_comments'                     
                            }));
       });
@@ -325,6 +350,21 @@ app.get("/admin/comments", (request, response) => {
     })
   
   
+});
+
+app.get("/admin/approve_comments", (request, response) => {
+  //let posts;
+  new Promise((resolve) => {
+      connection.query('UPDATE comments SET comment_status=\"Approve\" WHERE comment_id=\"cat_id\"', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        
+        resolve(response.redirect('/admin/comments'));
+      });
+      
+  })
 });
 
 app.get("/admin", (request, response) => {

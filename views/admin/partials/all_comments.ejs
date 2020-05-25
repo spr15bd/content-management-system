@@ -25,13 +25,27 @@
       <td><%=userData[key].comment_content%></td>
       <td><%=userData[key].comment_email%></td>
       <td><%=userData[key].comment_status%></td>
+      <%
       
-      <td><a href="/post?post_id=<%=userData[key].comment_post_id%>"></a></td>
+        Object.keys(userPosts).forEach((postKey) => {
+          
+        
+          if (userPosts[postKey].post_id==userData[key].comment_post_id) {
+      %>
+            <td><a href="/post?post_id=<%=userData[key].comment_post_id%>"><%=userPosts[postKey].post_title%></a></td>
+      <%
+          } 
+        });
+        
+      %>
       
-      <td><a href="#">Approve</a></td>
-      <td><a href="#">Unapprove</a></td>
+     
+      
+      
+      <td><a href="admin/approve_comments?approve=<%=userData[key].comment_id%>">Approve</a></td>
+      <td><a href="admin/approve_comments?unapprove=<%=userData[key].comment_id%>">Unapprove</a></td>
       <td><%=userData[key].comment_date%></td>
-      <td><a href="/delete_post?del=" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+      <td><a href="/delete_comment?del=<%=userData[key].comment_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
       
     </tr>
   <%
