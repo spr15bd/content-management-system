@@ -26,6 +26,7 @@
                 
                 userPosts.forEach(function(posts){
                   post_id = posts.post_id;
+                  console.log("Post_id: "+post_id);
                   post_title = posts.post_title;
                   post_author = posts.post_author;
                   post_date = posts.post_date;
@@ -75,6 +76,7 @@
                         <label for="author">Author</label>
                         <div class="form-group">
                             <input type="text" name="author" placeholder="Author" class="form-control">
+                            <input type="hidden" name="post_id" value="<%=post_id%>">
                         </div>
                         <label for="author">Email</label>
                         <div class="form-group">
@@ -82,7 +84,7 @@
                         </div>
                         <label for="author">Comment</label>
                         <div class="form-group">
-                            <textarea name="content" placeholder="Comment" class="form-control" rows="3"></textarea>
+                            <textarea name="comment" placeholder="Comment" class="form-control" rows="3"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" name="btn_submit">Submit</button>
                     </form>
