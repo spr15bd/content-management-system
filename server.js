@@ -59,6 +59,7 @@ app.get("/category", (request, response) => {
 });
 
 app.get("/post", (request, response) => {
+  let comments;
   connection.query('SELECT * from categories', function (error, results, fields) {
     if (error) {
       console.log("Connection error");
@@ -69,14 +70,25 @@ app.get("/post", (request, response) => {
     
   });
   
+  connection.query('SELECT * from comments WHERE comment_post_id=\"'+request.query.post_id+'\" AND comment_status=\"Approved\" ORDER BY comment_id DESC', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    comments = results;
+    
+  });
+  
   connection.query('SELECT * from posts WHERE post_id = \"'+request.query.post_id+'\"', function (error, results, fields) {
     if (error) {
       console.log("Connection error");
       throw error;
     }
     console.log('The solution is: ' +results);
-    response.render('post', {   title: 'User List', userData: data,
-                               title: 'User List', userPosts: results
+    response.render('post', {  title: 'User List', userData: data,
+                               title: 'User List', userPosts: results,
+                               title: 'User List', userComments: comments
     });
   });
     
@@ -355,7 +367,9 @@ app.get("/admin/comments", (request, response) => {
 app.get("/admin/approve_comments", (request, response) => {
   //let posts;
   new Promise((resolve) => {
-      connection.query('UPDATE comments SET comment_status=\"Approve\" WHERE comment_id=\"cat_id\"', function (error, results, fields) {
+    
+    console.log("status is "+request.query.status);
+      connection.query('UPDATE comments SET comment_status=\"'+request.query.status+'\" WHERE comment_id=\"'+request.query.comment_id+'\"', function (error, results, fields) {
         if (error) {
           console.log("Connection error");
           throw error;

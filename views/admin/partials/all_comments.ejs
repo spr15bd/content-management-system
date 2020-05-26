@@ -42,8 +42,8 @@
      
       
       
-      <td><a href="admin/approve_comments?approve=<%=userData[key].comment_id%>">Approve</a></td>
-      <td><a href="admin/approve_comments?unapprove=<%=userData[key].comment_id%>">Unapprove</a></td>
+      <td><a href="/admin/approve_comments?comment_id=<%=userData[key].comment_id%>&status=Approved">Approve</a></td>
+      <td><a href="/admin/approve_comments?comment_id=<%=userData[key].comment_id%>&status=Unapproved">Unapprove</a></td>
       <td><%=userData[key].comment_date%></td>
       <td><a href="/delete_comment?del=<%=userData[key].comment_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
       
