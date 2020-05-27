@@ -144,6 +144,13 @@ app.post("/add_comment", (request, response) => {
       }
       message="Your comment has been submitted";
     });
+    connection.query('UPDATE posts SET post_comment_count=post_comment_count+1 WHERE post_id='+request.body.post_id, function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      message="Your comment has been submitted";
+    });
   }  
   //response.redirect('/admin/posts?');
   response.redirect('/post?post_id='+request.body.post_id);
@@ -167,7 +174,7 @@ app.post("/add_post", (request, response) => {
       //response.end();
     });
     */
-    connection.query('INSERT INTO posts (post_cat_id, post_title, post_author, post_date, post_img, post_content, post_tags, post_comment_count, post_status) values (\"'+request.body.post_cat_id+'\", \"'+request.body.post_title+'\", \"'+request.body.post_author+'\", now(), \"https://cdn.glitch.com/48fe6ce9-7345-460e-b0ab-288a73ffe14d%2FenemyBullet.png?v=1587678871997\", \"'+request.body.post_content+'\", \"'+request.body.post_tags+'\", 4, \"'+request.body.post_status+'\")', function (error, results, fields) {
+    connection.query('INSERT INTO posts (post_cat_id, post_title, post_author, post_date, post_img, post_content, post_tags, post_status) values (\"'+request.body.post_cat_id+'\", \"'+request.body.post_title+'\", \"'+request.body.post_author+'\", now(), \"https://cdn.glitch.com/48fe6ce9-7345-460e-b0ab-288a73ffe14d%2FenemyBullet.png?v=1587678871997\", \"'+request.body.post_tags+'\", 4, \"'+request.body.post_status+'\")', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
