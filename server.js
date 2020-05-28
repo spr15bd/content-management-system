@@ -25,7 +25,7 @@ connection.query('SELECT * from categories', function (error, results, fields) {
   
 });
 
-connection.query('SELECT * from posts', function (error, results, fields) {
+connection.query('SELECT * from posts WHERE post_status="published"', function (error, results, fields) {
   if (error) {
     console.log("Connection error");
     throw error;
@@ -448,11 +448,20 @@ app.get("/admin/posts", (request, response) => {
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
+  new Promise((resolve) => {
+    connection.query('SELECT * from posts WHERE post_status="published"', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      //console.log('The solution is: ', results);
+      response.render('index', { userData: data,
+                                 userPosts: results
+      });
+    });
+});
   
   
-  response.render('index', { userData: data,
-                             userPosts: posts
-                           });
   //response.sendFile(__dirname + "/views/index.html");
 });
 

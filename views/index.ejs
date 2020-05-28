@@ -9,16 +9,7 @@
     <div class="container">
 
         <div class="row">
-           
-            
-        
-  
-
-
-            
-            
-            
-            <!-- Blog Entries Column -->
+           <!-- Blog Entries Column -->
             <div class="col-md-8">
              <%
               console.log("userPosts: "+userPosts.length);
@@ -62,7 +53,9 @@
                 
 
            
-          <%  });} else { %> <h1>Records not found.</h1> <%
+              <%  });} else { %> <br><br><br>
+              
+              <h1><div class="alert alert-danger">Records not found</div></h1> <%
             
           } %>
           </div>
