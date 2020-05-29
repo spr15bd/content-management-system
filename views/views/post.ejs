@@ -1,0 +1,128 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!-- Header section -->
+<%- include("partials/header") %>
+    <!-- Navigation -->
+    <%- include("partials/nav") %>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+           <!-- Blog Entries Column -->
+            <div class="col-md-8">
+             <%
+              console.log("userPosts: "+userPosts.length);
+              if(userPosts.length!=0){
+                
+                userPosts.forEach(function(posts){
+                  post_id = posts.post_id;
+                  console.log("Post_id: "+post_id);
+                  post_title = posts.post_title;
+                  post_author = posts.post_author;
+                  post_date = posts.post_date;
+                  post_img = posts.post_img;
+                  post_content = posts.post_content;
+                  post_tags = posts.post_tags;
+
+
+              %>
+              
+
+                <h1 class="page-header">
+                    Page Heading
+                    <small>Secondary Text</small>
+                </h1>
+
+                <!-- First Blog Post -->
+                <h2>
+                    <a href="/post?post_id=<%=post_id%>"><%=post_title%></a>
+                </h2>
+                <p class="lead">
+                    by <a href="index.php"><%=post_author%></a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on <%=post_date%></p>
+                <hr>
+                <img class="img-responsive" src=<%=post_img%> alt="">
+                <hr>
+                <p><%=post_content%></p>
+                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                <hr>
+
+                
+                
+
+           
+          <%  });} else { %> <h1>Records not found.</h1> <%
+            
+          } %>
+              
+            <!-- Blog Comments -->
+
+                <!-- Comments Form -->
+                <div class="well">
+                    <h4>Leave a Comment:</h4>
+                    <form action="/add_comment" method="post" role="form">
+                        <label for="author">Author</label>
+                        <div class="form-group">
+                            <input type="text" name="author" placeholder="Author" class="form-control">
+                            <input type="hidden" name="post_id" value="<%=post_id%>">
+                        </div>
+                        <label for="author">Email</label>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email" class="form-control">
+                        </div>
+                        <label for="author">Comment</label>
+                        <div class="form-group">
+                            <textarea name="comment" placeholder="Comment" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="btn_submit">Submit</button>
+                    </form>
+                </div>
+
+                <hr>
+                <%
+                if(userComments.length!=0){
+                
+                  userComments.forEach(function(comment){
+                    comment_title = comment.comment_author;
+                    comment_content = comment.comment_content;
+                    comment_date = comment.comment_date;
+
+                %>
+
+                    <!-- Posted Comments -->
+
+                    <!-- Comment -->
+                    <div class="media">
+                        
+                        <div class="media-body">
+                            <h4 class="media-heading"><%=comment_title%>
+                                <small><%=comment_date%></small>
+                            </h4>
+                            <%=comment_content%>
+                        </div>
+                    </div>
+                <%
+                  });  
+                }
+                
+                
+                
+                %>
+          </div>
+            <!-- Sidebar -->
+            <%- include("partials/side_bar") %>
+
+        <hr>
+
+        <!-- Footer -->
+        <%- include("partials/footer") %>
+
+      <!-- include the Glitch button to show what the webpage is about and
+            to make it easier for folks to view source and remix -->
+      <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+      <script src="https://button.glitch.me/button.js"></script>
+
+    

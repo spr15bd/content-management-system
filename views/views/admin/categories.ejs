@@ -1,0 +1,117 @@
+<!-- Header section -->
+<%- include("partials/header") %>
+
+<body>
+
+    <div id="wrapper">
+
+      <%- include("partials/nav") %>  
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            
+                            <small>Author</small>
+                        </h1>
+                        
+                      
+                    </div>
+                    <!-- Add a new category -->
+                    <!--<div class="col-lg-6">-->
+                      <form action="/add_category" method="POST">
+                        <div class="form-group">
+                          <label>Add New Category</label>
+                          <input type="text" name="category" placeholder="Category" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <button class="btn btn-success" name="btn_category" type="submit">
+                          Add Category
+                        </button>
+                        </div>
+                        <div>
+                          <p class="alert alert-danger">
+                            <%- userMessage %> 
+                          </p>
+                            
+                          
+                        </div>
+                        
+                      </form>
+                        
+                      <!-- Edit Category-->
+                      <%
+                        if (categoryName!=null) {
+                          
+                        
+                      
+                      %>
+                        <form action="/edit_category" method="POST">
+                        <div class="form-group">
+                          <label>Edit Category</label>
+                          <input type="text" name="new_category_name" value="<%=categoryName%>" placeholder="Category" class="form-control">
+                          <input type="hidden" name="old_category_name" value="<%=categoryName%>">
+                        </div>
+                        <div class="form-group">
+                          <button class="btn btn-success" name="btn_category" type="submit">
+                          Edit Category
+                        </button>
+                        </div>
+                        <div>
+                          <p class="alert alert-danger">
+                            <%- userMessage %> 
+                          </p>
+                            
+                          
+                        </div>
+                        
+                      </form>
+
+                    <% }
+                    %>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                      <table class="table table-bordered">
+                        <tr>
+                          <th style="width:20%">Category ID</th>
+                          <th style="width:70%">Category Name</th>
+                          <th style="width:30%" colspan=2>Operations</th>
+                        </tr>
+                        
+                        <%
+                        if(userData.length!=0){
+                          //console.log(typeof userData);
+                          Object.keys(userData).forEach((key) => {
+                        %>
+                        <tr>
+                          <td><%=userData[key].cat_id%></td>
+                          <td><%=userData[key].cat_title%></td>
+                          <td><a href="/delete_category?del=<%=userData[key].cat_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+                          <td><a href="/admin/categories?edit=<%=userData[key].cat_id%>" class="btn btn-success"><span class="fa fa-trash"></span></a></td>
+                        </tr>
+                        <% 
+                          });
+                        } else { %>No Data<%
+                          
+                        }
+                        %>
+                       
+                        
+                      </table>  
+                    </div>
+                  </div>
+                </div>
+                <!-- /.row -->
+              </div>
+            <!-- /.container-fluid -->
+
+          </div>
+          <!-- /#page-wrapper -->
+
+
+        <%- include("partials/footer") %>        

@@ -1,0 +1,43 @@
+<table class="table table-stripped">
+  <tr>
+    <td>ID</td>
+    <td>Author</td>
+    <td>Title</td>
+    <td>Category</td>
+    <td>Status</td>
+    <td>Img</td>
+    <td>Comment</td>
+    <td>Date</td>
+  </tr>
+  <% 
+    
+  
+  
+  
+    if(userData.length!=0) {
+      Object.keys(userData).forEach((key) => {
+  %>    
+    <tr>
+      <td><%=userData[key].post_id%></td>
+      <td><%=userData[key].post_author%></td>
+      <td><%=userData[key].post_title%></td>
+      <td><% Object.keys(categories).forEach((catKey) => {
+              
+              if (categories[catKey].cat_id==userData[key].post_cat_id) {  %>
+        
+                <%=categories[catKey].cat_title%><%
+              }
+          })
+          %></td>
+      <td><%=userData[key].post_status%></td>
+      <td><img width="50" height="50" class="img-responsive" src="<%=userData[key].post_img%>"></td>
+      <td><%=userData[key].post_comment_count%></td>
+      <td><%=userData[key].post_date%></td>
+      <td><a href="/delete_post?del=<%=userData[key].post_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+      <td><a href="/admin/posts?edit=<%=userData[key].post_id%>&option=edit_post" class="btn btn-success"><span class="fa fa-pencil"></span></a></td>
+    </tr>
+  <%
+      });
+    }
+  %>
+</table> 

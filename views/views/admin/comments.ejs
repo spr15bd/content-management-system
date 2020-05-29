@@ -1,0 +1,55 @@
+<!-- Header section -->
+<%- include("partials/header") %>
+
+<body>
+
+    <div id="wrapper">
+
+      <%- include("partials/nav") %>  
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            
+                            <small>Author</small>
+                        </h1>
+                        <%
+                        switch (option) {
+                        case 'add_post':
+                        %>
+                          <%- include("partials/add_post") %>
+                        <%
+                        break;
+                        case 'edit_post':
+                        
+                        %>
+                          <%- include("partials/edit_post") %>
+                          
+                        <%
+                        break;
+                        default:
+                        %>
+                        
+                        <%- include("partials/all_comments") %>
+                        <%
+                        }
+                        
+                        %>
+                      
+                    
+                  </div>
+                </div>
+                <!-- /.row -->
+              </div>
+            <!-- /.container-fluid -->
+
+          </div>
+          <!-- /#page-wrapper -->
+
+
+        <%- include("partials/footer") %>        

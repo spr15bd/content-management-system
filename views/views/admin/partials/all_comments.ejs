@@ -1,0 +1,55 @@
+<table class="table table-stripped">
+  <tr>
+    <td>ID</td>
+    <td>Author</td>
+    <td>Comment</td>
+    <td>Email</td>
+    <td>Status</td>
+    <td>Response to</td>
+    <td>Approve</td>
+    <td>Unapprove</td>
+    <td>Date</td>
+    <td colspan="2">Operations</td>
+  </tr>
+  <% 
+    
+  
+  
+  
+    if(userData.length!=0) {
+      Object.keys(userData).forEach((key) => {
+  %>    
+    <tr>
+      <td><%=userData[key].comment_id%></td>
+      <td><%=userData[key].comment_author%></td>
+      <td><%=userData[key].comment_content%></td>
+      <td><%=userData[key].comment_email%></td>
+      <td><%=userData[key].comment_status%></td>
+      <%
+      
+        Object.keys(userPosts).forEach((postKey) => {
+          
+        
+          if (userPosts[postKey].post_id==userData[key].comment_post_id) {
+      %>
+            <td><a href="/post?post_id=<%=userData[key].comment_post_id%>"><%=userPosts[postKey].post_title%></a></td>
+      <%
+          } 
+        });
+        
+      %>
+      
+     
+      
+      
+      <td><a href="/admin/approve_comments?comment_id=<%=userData[key].comment_id%>&status=Approved">Approve</a></td>
+      <td><a href="/admin/approve_comments?comment_id=<%=userData[key].comment_id%>&status=Unapproved">Unapprove</a></td>
+      <td><%=userData[key].comment_date%></td>
+      <td><a href="/delete_comment?del=<%=userData[key].comment_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+      
+    </tr>
+  <%
+      });
+    }
+  %>
+</table> 
