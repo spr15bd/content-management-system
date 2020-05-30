@@ -1,0 +1,35 @@
+<table class="table table-stripped">
+  <tr>
+    <td>ID</td>
+    <td>Username</td>
+    <td>First Name</td>
+    <td>Last Name</td>
+    <td>Email</td>
+    <td>Role</td>
+    <td>Date</td>
+    <td colspan="2">Operations</td>
+  </tr>
+  <% 
+    
+  
+  
+  
+    if(userData.length!=0) {
+      Object.keys(userData).forEach((key) => {
+  %>    
+    <tr>
+      <td><%=userData[key].user_id%></td>
+      <td><%=userData[key].user_name%></td>
+      <td><%=userData[key].first_name%></td>
+      <td><%=userData[key].last_name%></td>
+      <td><%=userData[key].user_email%></td>
+      <td><%=userData[key].user_role%></td>
+      <td>date</td>
+      <td><a href="/users?option=edit_user&del=<%=userData[key].user_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+      
+    </tr>
+  <%
+      });
+    }
+  %>
+</table> 

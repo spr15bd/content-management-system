@@ -91,10 +91,42 @@ app.get("/post", (request, response) => {
                                title: 'User List', userComments: comments
     });
   });
-    
-  
 });
 
+app.get("/users", (request, response) => {
+  let users;
+  if (request.query.option=="all_users") {
+    connection.query('SELECT * from users', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      
+      users = results;
+      response.render('admin/users', {  title: 'User List', userData: users,
+                                 title: 'User List', option: request.query.option
+                                 //title: 'User List', userComments: comments
+      });
+    });
+  } else if (request.query.option=="add_user") {
+    response.render('admin/users', {  title: 'User List', option: request.query.option
+                                      //title: 'User List', userComments: comments
+    });
+  }
+});
+app.post("/users/add_user", (request, response) => {
+  //let users;
+  connection.query('INSERT INTO users VALUES', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    //users = results;
+    response.redirect("/users/");
+    
+  });
+});
 app.post("/search", (request, response) => {
   console.log(request.body.search_text);
   connection.query('SELECT * from posts WHERE post_tags LIKE \"'+request.body.search_text+'\"', function (error, results, fields) {
