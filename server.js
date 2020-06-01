@@ -116,7 +116,7 @@ app.get("/users", (request, response) => {
 });
 app.post("/users/add_user", (request, response) => {
   //let users;
-  connection.query('INSERT INTO users VALUES', function (error, results, fields) {
+  connection.query('INSERT INTO users (user_name, user_password, first_name, last_name, user_email, user_role) VALUES (request.body.user_name, request.body.user_password, request.body.first_name, request.body.last_name, request.body.user_email, request.body.user_role)', function (error, results, fields) {
     if (error) {
       console.log("Connection error");
       throw error;
