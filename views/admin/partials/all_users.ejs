@@ -6,8 +6,9 @@
     <td>Last Name</td>
     <td>Email</td>
     <td>Role</td>
-    <td>Date</td>
-    <td colspan="2">Operations</td>
+    <td>Delete</td>
+    <td>Admin</td>
+    <td>Subscriber</td>
   </tr>
   <% 
     
@@ -24,9 +25,9 @@
       <td><%=userData[key].last_name%></td>
       <td><%=userData[key].user_email%></td>
       <td><%=userData[key].user_role%></td>
-      <td>date</td>
-      <td><a href="/users?option=edit_user&del=<%=userData[key].user_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
-      
+      <td><a href="/delete_user?del=<%=userData[key].user_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+      <td><a href="/users?admin=<%=userData[key].user_id%>" class="btn btn-success"><span class="fa fa-user"></span></a></td>
+      <td><a href="/users?subscriber=<%=userData[key].user_id%>" class="btn btn-primary"><span class="fa fa-users"></span></a></td>
     </tr>
   <%
       });
