@@ -114,6 +114,18 @@ app.get("/users", (request, response) => {
     });
   }
 });
+
+app.get("/update_user_status", (request, response) => {
+  connection.query('UPDATE users SET user_role=\"'+request.query.role+'\" WHERE user_id='+request.query.id, function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    search_posts = results;
+    response.redirect("/users?option=all_users");
+  });
+});
 app.post("/add_user", (request, response) => {
   //let users;
   connection.query('INSERT INTO users (user_name, user_password, first_name, last_name, user_email, user_role) VALUES (\"'+request.body.user_name+'\", \"'+request.body.user_password+'\", \"'+request.body.first_name+'\", \"'+request.body.last_name+'\", \"'+request.body.user_email+'\", \"'+request.body.user_role+'\")', function (error, results, fields) {

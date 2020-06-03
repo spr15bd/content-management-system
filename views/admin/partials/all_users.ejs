@@ -26,8 +26,8 @@
       <td><%=userData[key].user_email%></td>
       <td><%=userData[key].user_role%></td>
       <td><a href="/delete_user?del=<%=userData[key].user_id%>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
-      <td><a href="/users?admin=<%=userData[key].user_id%>" class="btn btn-success"><span class="fa fa-user"></span></a></td>
-      <td><a href="/users?subscriber=<%=userData[key].user_id%>" class="btn btn-primary"><span class="fa fa-users"></span></a></td>
+      <td><a href="/update_user_status?id=<%=userData[key].user_id%>&role=Admin" class="btn btn-success"><span class="fa fa-user"></span></a></td>
+      <td><a href="/update_user_status?id=<%=userData[key].user_id%>&role=Subscriber" class="btn btn-primary"><span class="fa fa-users"></span></a></td>
     </tr>
   <%
       });
