@@ -108,23 +108,33 @@ app.get("/users", (request, response) => {
                                  //title: 'User List', userComments: comments
       });
     });
-  } else if (request.query.option=="add_user") {
+  } else {
     response.render('admin/users', {  title: 'User List', option: request.query.option
                                       //title: 'User List', userComments: comments
     });
   }
 });
 
-app.get("/update_user_status", (request, response) => {
-  connection.query('UPDATE users SET user_role=\"'+request.query.role+'\" WHERE user_id='+request.query.id, function (error, results, fields) {
-    if (error) {
-      console.log("Connection error");
-      throw error;
-    }
-    console.log('The solution is: ' +results);
-    search_posts = results;
-    response.redirect("/users?option=all_users");
-  });
+app.get("/update_user", (request, response) => {
+  if (request.query.role!=null) {
+    connection.query('UPDATE users SET user_role=\"'+request.query.role+'\" WHERE user_id='+request.query.id, function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      response.redirect("/users?option=all_users");
+    });
+  } else {
+    connection.query('SELECT * FROM users WHERE user_id='+request.query.id, (error, results, fields)=>{
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      response.render('admin/users', { title: 'User List', option: 'edit_user'
+      });
+    });
+  }
+  
 });
 app.post("/add_user", (request, response) => {
   //let users;
