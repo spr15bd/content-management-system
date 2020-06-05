@@ -130,7 +130,9 @@ app.get("/update_user", (request, response) => {
         console.log("Connection error");
         throw error;
       }
-      response.render('admin/users', { title: 'User List', option: 'edit_user'
+      console.log("Data "+results);
+      response.render('admin/users', {  title: 'User List', option: 'edit_user',
+                                        title: 'User List', userData: results
       });
     });
   }
@@ -289,6 +291,35 @@ app.post("/edit_post", (request, response) => {
       
     });
     response.redirect('/admin/posts');
+  }
+}); 
+
+app.post("/edit_user", (request, response) => {
+  //console.log("Post status is "+ request.body.post_status);
+  console.log("in edit user");
+  if (request.body.user_name=="") {
+    message = "Please enter a username";
+  } else {
+    message="Amending user";
+    console.log(message);
+    /*let form = new formidable.IncomingForm();
+    form.parse(request, function (err, fields, files) {
+      let fileToUpload = request.body.image_name;
+      
+      let oldPath = files.fileToUpload.path;
+      console.log('File uploaded to '+oldPath);
+      //response.write('File uploaded');
+      //response.end();
+    });
+    */
+    connection.query('UPDATE users SET first_name=\"'+request.body.first_name+'\", last_name=\"'+request.body.last_name+'\", user_name=\"'+request.body.user_name+'\", user_password=\"'+request.body.user_password+'\", user_email=\"'+request.body.user_email+'\", user_role=\"'+request.body.user_role+'\" WHERE user_id=\"'+request.body.user_id+'\"', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      
+    });
+    response.redirect('users?option=all_users');
   }
 }); 
 
