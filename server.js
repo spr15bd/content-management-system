@@ -151,6 +151,19 @@ app.post("/add_user", (request, response) => {
     
   });
 });
+app.post("/login", (request, response) => {
+  console.log("Username is "+request.body.username);
+  connection.query('SELECT * FROM users WHERE user_name=\"'+request.body.username+'\"', function (error, results, fields) {
+    if (error) {
+      console.log("Connection error");
+      throw error;
+    }
+    console.log('The solution is: ' +results);
+    //users = results;
+    //response.redirect("/users?option=all_users");
+    
+  });
+});
 app.post("/search", (request, response) => {
   console.log(request.body.search_text);
   connection.query('SELECT * from posts WHERE post_tags LIKE \"'+request.body.search_text+'\"', function (error, results, fields) {
