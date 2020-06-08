@@ -158,7 +158,12 @@ app.post("/login", (request, response) => {
       console.log("Connection error");
       throw error;
     }
-    console.log('The solution is: ' +results);
+    console.log(results[0].user_name);
+    if (request.body.username==results[0].user_name && request.body.password==results[0].user_password) {
+      response.redirect("/admin");
+    } else {
+      response.redirect("/");
+    }
     //users = results;
     //response.redirect("/users?option=all_users");
     
