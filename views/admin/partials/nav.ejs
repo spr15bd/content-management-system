@@ -56,12 +56,18 @@
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
-                            <li>
+                            <%
+                            if (sess.db_user_role == 'Admin') {
+                            %>
+                              <li>
                                 <a href="/users?option=all_users">View All Users</a>
-                            </li>
-                            <li>
-                                <a href="/users?option=add_user">Add User</a>
-                            </li>
+                              </li>
+                              <li>
+                                  <a href="/users?option=add_user">Add User</a>
+                              </li>
+                            <%
+                            }
+                            %>
                         </ul>
                     </li>
                     <li class="active">

@@ -1,12 +1,14 @@
 // server.js
 // where your node app starts
 
-let data, posts, search_posts;
+let data, posts, search_posts, sess;
 let message="";
 const express = require("express");
+const session = require('express-session');
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({secret: 'ssshhhhh'}));
 //let formidable = require('formidable');
 app.use(express.json());       // to support JSON-encoded bodies
 app.set("view engine","ejs");
@@ -152,6 +154,8 @@ app.post("/add_user", (request, response) => {
   });
 });
 app.post("/login", (request, response) => {
+  
+  
   console.log("Username is "+request.body.username);
   connection.query('SELECT * FROM users WHERE user_name=\"'+request.body.username+'\"', function (error, results, fields) {
     if (error) {
@@ -160,6 +164,9 @@ app.post("/login", (request, response) => {
     }
     console.log(results[0].user_name);
     if (request.body.username==results[0].user_name && request.body.password==results[0].user_password) {
+      sess=request.session;
+      sess.db_user_role=results[0].user_role;
+      sess.db_user_name=results[0].user_name;
       response.redirect("/admin");
     } else {
       response.redirect("/");
@@ -515,7 +522,8 @@ app.get("/admin", (request, response) => {
   
   
   response.render('admin/index', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts
+                             title: 'User List', userPosts: posts,
+                                  title: 'User List', sess: sess
                            });
   //response.sendFile(__dirname + "/views/index.html");
 });
