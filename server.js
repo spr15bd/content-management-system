@@ -520,12 +520,14 @@ app.get("/admin/approve_comments", (request, response) => {
 
 app.get("/admin", (request, response) => {
   
-  
-  response.render('admin/index', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts,
-                                  title: 'User List', sess: sess
-                           });
+  if (sess!=null) {
+    response.render('admin/index', {  title: 'User List', userData: data,
+                                      title: 'User List', userPosts: posts,
+                                      title: 'User List', sess: sess
+    });
   //response.sendFile(__dirname + "/views/index.html");
+  }
+  
 });
 
 app.get("/category", (request, response) => {
@@ -592,6 +594,23 @@ app.get("/", (request, response) => {
     });
 });
   
+app.get("/logout", (request, response) => {
+  sess.db_user_name=null;
+  sess.db_user_role=null;
+  response.render('/', { title: 'User List', userData: data,
+                             title: 'User List', userPosts: posts
+                           });
+  //response.sendFile(__dirname + "/views/index.html");
+});
+  
+app.get("/profile", (request, response) => {
+  
+  
+  response.render('/admin/profile', { title: 'User List', userData: data,
+                             title: 'User List', userPosts: posts
+                           });
+  //response.sendFile(__dirname + "/views/index.html");
+});
   
   //response.sendFile(__dirname + "/views/index.html");
 });
