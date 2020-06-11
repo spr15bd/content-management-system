@@ -520,12 +520,15 @@ app.get("/admin/approve_comments", (request, response) => {
 
 app.get("/admin", (request, response) => {
   
-  if (sess!=null) {
+  if (sess==null||sess.db_user_name==null) {
+    response.redirect("/");
+    
+  //response.sendFile(__dirname + "/views/index.html");
+  } else if (sess.db_user_name.length>0) {
     response.render('admin/index', {  title: 'User List', userData: data,
                                       title: 'User List', userPosts: posts,
                                       title: 'User List', sess: sess
     });
-  //response.sendFile(__dirname + "/views/index.html");
   }
   
 });
@@ -579,6 +582,15 @@ app.get("/admin/posts", (request, response) => {
   
 });
 
+app.get("/logout", (request, response) => {
+  sess.db_user_name=null;
+  sess.db_user_role=null;
+  response.render('index', { title: 'User List', userData: data,
+                             title: 'User List', userPosts: posts
+                           });
+  //response.sendFile(__dirname + "/views/index.html");
+});
+
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   new Promise((resolve) => {
@@ -594,21 +606,26 @@ app.get("/", (request, response) => {
     });
 });
   
-app.get("/logout", (request, response) => {
-  sess.db_user_name=null;
-  sess.db_user_role=null;
-  response.render('/', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts
-                           });
-  //response.sendFile(__dirname + "/views/index.html");
-});
+
   
 app.get("/profile", (request, response) => {
   
+  if (sess.db_user_name.length>0) {
+    connection.query('SELECT * from users WHERE user_name="'+sess.db_user_name+'"', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      //console.log('The solution is: ', results);
+      response.render('index', { userData: data,
+                                 userPosts: results
+      });
+    });
   
-  response.render('/admin/profile', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts
-                           });
+  }
+  response.render('admin/profile', { title: 'User List', userData: data,
+                                     title: 'User List', sess: sess
+  });
   //response.sendFile(__dirname + "/views/index.html");
 });
   
