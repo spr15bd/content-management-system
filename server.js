@@ -616,18 +616,17 @@ app.get("/profile", (request, response) => {
         console.log("Connection error");
         throw error;
       }
-      //console.log('The solution is: ', results);
-      response.render('index', { userData: data,
-                                 userPosts: results
+      response.render('admin/profile', { title: 'User List', userData: data,
+                                     title: 'User List', sess: sess
       });
+      //console.log('The solution is: ', results);
+      
+      
+  
     });
   
-  }
-  response.render('admin/profile', { title: 'User List', userData: data,
-                                     title: 'User List', sess: sess
-  });
   //response.sendFile(__dirname + "/views/index.html");
-});
+  }
   
   //response.sendFile(__dirname + "/views/index.html");
 });
@@ -637,7 +636,3 @@ app.get("/profile", (request, response) => {
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
-
-
-
-
