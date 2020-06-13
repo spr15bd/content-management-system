@@ -106,13 +106,14 @@ app.get("/users", (request, response) => {
       
       users = results;
       response.render('admin/users', {  title: 'User List', userData: users,
-                                 title: 'User List', option: request.query.option
+                                        title: 'User List', option: request.query.option,
+                                        title: 'User List', sess:sess
                                  //title: 'User List', userComments: comments
       });
     });
   } else {
-    response.render('admin/users', {  title: 'User List', option: request.query.option
-                                      //title: 'User List', userComments: comments
+    response.render('admin/users', {  title: 'User List', option: request.query.option,
+                                      title: 'User List', sess:sess
     });
   }
 });
@@ -337,13 +338,24 @@ app.post("/edit_user", (request, response) => {
       //response.end();
     });
     */
-    connection.query('UPDATE users SET first_name=\"'+request.body.first_name+'\", last_name=\"'+request.body.last_name+'\", user_name=\"'+request.body.user_name+'\", user_password=\"'+request.body.user_password+'\", user_email=\"'+request.body.user_email+'\", user_role=\"'+request.body.user_role+'\" WHERE user_id=\"'+request.body.user_id+'\"', function (error, results, fields) {
-      if (error) {
-        console.log("Connection error");
-        throw error;
-      }
-      
-    });
+    if (request.query.from=="edit_user"){
+      connection.query('UPDATE users SET first_name=\"'+request.body.first_name+'\", last_name=\"'+request.body.last_name+'\", user_name=\"'+request.body.user_name+'\", user_password=\"'+request.body.user_password+'\", user_email=\"'+request.body.user_email+'\", user_role=\"'+request.body.user_role+'\" WHERE user_id=\"'+request.body.user_id+'\"', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+
+      });
+    } else {
+      connection.query('UPDATE users SET first_name=\"'+request.body.first_name+'\", last_name=\"'+request.body.last_name+'\", user_name=\"'+request.body.user_name+'\", user_password=\"'+request.body.user_password+'\", user_email=\"'+request.body.user_email+'\", user_role=\"'+request.body.user_role+'\" WHERE user_name=\"'+request.body.user_name+'\"', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+
+      });
+    }
+    
     response.redirect('users?option=all_users');
   }
 }); 
@@ -604,32 +616,27 @@ app.get("/", (request, response) => {
                                  userPosts: results
       });
     });
+  });
 });
   
 
   
 app.get("/profile", (request, response) => {
-  
   if (sess.db_user_name.length>0) {
     connection.query('SELECT * from users WHERE user_name="'+sess.db_user_name+'"', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
         throw error;
       }
-      response.render('admin/profile', { title: 'User List', userData: data,
-                                     title: 'User List', sess: sess
+      response.render('admin/profile', { title: 'User List', userData: results,
+                                         title: 'User List', sess: sess
       });
-      //console.log('The solution is: ', results);
-      
-      
-  
-    });
+    });//end connection
   
   //response.sendFile(__dirname + "/views/index.html");
-  }
+  }//end if
   
-  //response.sendFile(__dirname + "/views/index.html");
-});
+}); //end app.get
 
 
 // listen for requests :)
