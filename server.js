@@ -531,16 +531,64 @@ app.get("/admin/approve_comments", (request, response) => {
 });
 
 app.get("/admin", (request, response) => {
-  
+  let posts, comments, users, categories;
   if (sess==null||sess.db_user_name==null) {
     response.redirect("/");
     
   //response.sendFile(__dirname + "/views/index.html");
   } else if (sess.db_user_name.length>0) {
-    response.render('admin/index', {  title: 'User List', userData: data,
-                                      title: 'User List', userPosts: posts,
+    
+    connection.query('SELECT * from posts', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        
+        posts=results;
+        
+      });
+    
+    
+    connection.query('SELECT * from comments', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        
+        comments=results;
+        
+      });
+  
+    
+    connection.query('SELECT * from users', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        
+        users=results;
+        
+      });
+    
+    
+    connection.query('SELECT * from categories', function (error, results, fields) {
+        if (error) {
+          console.log("Connection error");
+          throw error;
+        }
+        
+        categories=results;
+        response.render('admin/index', {  title: 'User List', posts: posts,
+                                      title: 'User List', comments: comments,
+                                      title: 'User List', users: users,
+                                      title: 'User List', categories: categories,
                                       title: 'User List', sess: sess
     });
+      });
+    
+    
+    
+    
   }
   
 });
