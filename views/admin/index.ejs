@@ -121,27 +121,19 @@
               
               
                 <!-- /.row -->
-              
-              
-              </div>
-            <!-- /.container-fluid -->
-
-          </div>
-          <!-- /#page-wrapper -->
-          <div class="row">
-            <div class="col">
-              <div class="container">
-                <!-- /.chart -->
-                <script type="text/javascript">
+                <div class="row">
+                  <div class="col">
+                    <div class="container">
+                      <script type="text/javascript">
                   google.charts.load("current", {packages:['corechart']});
                   google.charts.setOnLoadCallback(drawChart);
                   function drawChart() {
                     var data = google.visualization.arrayToDataTable([
-                      ["Element", "Density", { role: "style" } ],
-                      ["Copper", 8.94, "#b87333"],
-                      ["Silver", 10.49, "silver"],
-                      ["Gold", 19.30, "gold"],
-                      ["Platinum", 21.45, "color: #e5e4e2"]
+                      ["Data", "Count", { role: "style" } ],
+                      ["Posts", 8.94, "#b87333"],
+                      ["Comments", 10.49, "silver"],
+                      ["Users", 19.30, "gold"],
+                      ["Categories", 21.45, "color: #e5e4e2"]
                     ]);
 
                     var view = new google.visualization.DataView(data);
@@ -153,7 +145,7 @@
                                      2]);
 
                     var options = {
-                      title: "Density of Precious Metals, in g/cm^3",
+                      title: "",
                       width: 600,
                       height: 400,
                       bar: {groupWidth: "95%"},
@@ -163,9 +155,10 @@
                     chart.draw(view, options);
                 }
                 </script>
-                <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
-              </div>
-            </div>  
-          </div>
+                <div id="columnchart_values" style="height: 500px;"></div>
+                    </div>
+                  </div>
+             </div>
+          
 
         <%- include("partials/footer") %>        
