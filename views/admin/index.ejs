@@ -130,10 +130,10 @@
                   function drawChart() {
                     var data = google.visualization.arrayToDataTable([
                       ["Data", "Count", { role: "style" } ],
-                      ["Posts", 8.94, "#b87333"],
-                      ["Comments", 10.49, "silver"],
-                      ["Users", 19.30, "gold"],
-                      ["Categories", 21.45, "color: #e5e4e2"]
+                      ["Posts", <%=posts.length%>, "#1e6c9d"],
+                      ["Comments", <%=comments.length%>, "17b54b"],
+                      ["Users", <%=users.length%>, "gold"],
+                      ["Categories", <%=categories.length%>, "color: #e5e4e2"]
                     ]);
 
                     var view = new google.visualization.DataView(data);
@@ -145,7 +145,7 @@
                                      2]);
 
                     var options = {
-                      title: "",
+                      title: "Number",
                       width: 600,
                       height: 400,
                       bar: {groupWidth: "95%"},
