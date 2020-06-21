@@ -135,7 +135,8 @@ app.get("/update_user", (request, response) => {
       }
       console.log("Data "+results);
       response.render('admin/users', {  title: 'User List', option: 'edit_user',
-                                        title: 'User List', userData: results
+                                        title: 'User List', userData: results,
+                                        sess: sess
       });
     });
   }
@@ -264,11 +265,11 @@ app.post("/add_post", (request, response) => {
       
     });
   }  
-  //response.redirect('/admin/posts?');
   response.render('admin/posts', {  userMessage: message,
                                     option: 'add_post',
-                                    categories: request.body.categories
-        });
+                                    categories: request.body.categories,
+                                    sess: sess
+  });
 });
 
 app.post("/edit_category", (request, response) => {
@@ -468,10 +469,11 @@ app.get("/admin/categories", (request, response) => {
             
           }
         });
-        resolve(response.render('admin/categories', { userData: results,
-                             userMessage: message,
-                              categoryName: categoryToEdit
-                           }));
+        resolve(response.render('admin/categories', {  userData: results,
+                                                       userMessage: message,
+                                                       categoryName: categoryToEdit,
+                                                       sess: sess
+        }));
       });
       
     })
@@ -493,22 +495,21 @@ app.get("/admin/comments", (request, response) => {
       
   })
   
-    new Promise((resolve) => {
-      connection.query('SELECT * from comments', function (error, results, fields) {
-        if (error) {
-          console.log("Connection error");
-          throw error;
-        }
-        
-        resolve(response.render('admin/comments', { userData: results,
-                             userMessage: message,
-                              userPosts: posts|| "no posts",
-                              //categoryName: categoryToEdit,
-                              option: 'all_comments'                     
-                           }));
-      });
+  new Promise((resolve) => {
+    connection.query('SELECT * from comments', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      resolve(response.render('admin/comments', {  userData: results,
+                                                      userMessage: message,
+                                                      userPosts: posts|| "no posts",
+                                                      option: 'all_comments',
+                                                      sess: sess                     
+      }));
+    });
       
-    })
+  })
   
   
 });

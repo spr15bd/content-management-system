@@ -131,21 +131,21 @@
                     var data = google.visualization.arrayToDataTable([
                       ["Data", "Count", { role: "style" } ],
                       ["Posts", <%=posts.length%>, "#1e6c9d"],
-                      ["Comments", <%=comments.length%>, "6bb36b"],
+                      ["Comments", <%=comments.length%>, "56b356"],
                       ["Users", <%=users.length%>, "orange"],
                       ["Categories", <%=categories.length%>, "color: red"]
                     ]);
 
                     var view = new google.visualization.DataView(data);
-                    view.setColumns([0, 1,
+                    /*view.setColumns([0, 1,
                                      { calc: "stringify",
                                        sourceColumn: 1,
                                        type: "string",
                                        role: "annotation" },
                                      2]);
-
+                    */
                     var options = {
-                      title: "Number",
+                      title: "Count",
                       width: 600,
                       height: 400,
                       bar: {groupWidth: "95%"},
