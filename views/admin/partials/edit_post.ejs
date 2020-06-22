@@ -36,7 +36,7 @@
                           <label>Post Status</label>
                           <!--<input type="text" name="post_status" placeholder="Post Status" value=<%=postToEdit.post_status%> class="form-control">-->
                           <select name="post_status" class="form-control">
-                            <option value="Draft"><%=postToEdit.post_status%></option>
+                            <option value=<%=postToEdit.post_status%>><%=postToEdit.post_status%></option>
                             <%
                             if (postToEdit.post_status=="Published") {
                             %>

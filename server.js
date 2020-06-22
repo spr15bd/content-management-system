@@ -47,6 +47,7 @@ app.use(express.static("public"));
 
 
 app.get("/category", (request, response) => {
+  sess=request.session;
   connection.query('SELECT * from posts WHERE post_cat_id=\"'+request.query.category+'\"', function (error, results, fields) {
     if (error) {
       console.log("Connection error");
@@ -54,13 +55,16 @@ app.get("/category", (request, response) => {
     }
     console.log('The solution is: ' +results);
     search_posts = results;
-    response.render('index', { title: 'User List', userData: data,
-                               title: 'User List', userPosts: search_posts
+    response.render('index', { 
+                                title: 'User List', userData: data,
+                                title: 'User List', userPosts: search_posts,
+                                sess:sess
     });
   });
 });
 
 app.get("/post", (request, response) => {
+  sess=request.session;
   let comments;
   connection.query('SELECT * from categories', function (error, results, fields) {
     if (error) {
@@ -90,7 +94,9 @@ app.get("/post", (request, response) => {
     console.log('The solution is: ' +results);
     response.render('post', {  title: 'User List', userData: data,
                                title: 'User List', userPosts: results,
-                               title: 'User List', userComments: comments
+                               title: 'User List', userComments: comments,
+                               post_id: request.query.post_id,
+                               sess: sess
     });
   });
 });
@@ -635,7 +641,8 @@ app.get("/admin/posts", (request, response) => {
                                                   categories: categories,
                                                   userMessage: message,
                                                   postToEdit: postToEdit,
-                                                  option: request.query.option
+                                                  option: request.query.option,
+                                                  sess: sess
         }));
       });
       
@@ -654,6 +661,7 @@ app.get("/logout", (request, response) => {
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
+  sess=request.session;
   new Promise((resolve) => {
     connection.query('SELECT * from posts WHERE post_status="published"', function (error, results, fields) {
       if (error) {
@@ -661,8 +669,10 @@ app.get("/", (request, response) => {
         throw error;
       }
       //console.log('The solution is: ', results);
-      response.render('index', { userData: data,
-                                 userPosts: results
+      response.render('index', { 
+                                  userData: data,
+                                  userPosts: results,
+                                  sess:sess
       });
     });
   });

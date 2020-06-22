@@ -24,6 +24,17 @@
         }
         %>
         <li><a href="/admin">Admin</a></li>
+        <%
+          if (sess.db_user_role!=null) {
+            if (post_id !=null) {
+        %>
+              <li><a href="#">Edit Post</a></li>
+        <%
+            
+            }
+          
+          }
+        %>
       </ul>
     </div>
     <!-- /.navbar-collapse -->
