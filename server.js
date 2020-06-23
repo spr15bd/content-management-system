@@ -71,31 +71,31 @@ app.get("/post", (request, response) => {
       console.log("Connection error");
       throw error;
     }
-    console.log('The solution is: ' +results);
+    
     data = results;
     
   });
   
-  connection.query('SELECT * from comments WHERE comment_post_id=\"'+request.query.post_id+'\" AND comment_status=\"Approved\" ORDER BY comment_id DESC', function (error, results, fields) {
+  connection.query('SELECT * from comments WHERE comment_post_id=\"'+request.query.id+'\" AND comment_status=\"Approved\" ORDER BY comment_id DESC', function (error, results, fields) {
     if (error) {
       console.log("Connection error");
       throw error;
     }
-    console.log('The solution is: ' +results);
+    
     comments = results;
     
   });
   
-  connection.query('SELECT * from posts WHERE post_id = \"'+request.query.post_id+'\"', function (error, results, fields) {
+  connection.query('SELECT * from posts WHERE post_id = \"'+request.query.id+'\"', function (error, results, fields) {
     if (error) {
       console.log("Connection error");
       throw error;
     }
-    console.log('The solution is: ' +results);
-    response.render('post', {  title: 'User List', userData: data,
-                               title: 'User List', userPosts: results,
-                               title: 'User List', userComments: comments,
-                               post_id: request.query.post_id,
+    
+    response.render('post', {  userData: data,
+                               userPosts: results,
+                               userComments: comments,
+                               id: request.query.id,
                                sess: sess
     });
   });
@@ -651,10 +651,12 @@ app.get("/admin/posts", (request, response) => {
 });
 
 app.get("/logout", (request, response) => {
-  sess.db_user_name=null;
-  sess.db_user_role=null;
-  response.render('index', { title: 'User List', userData: data,
-                             title: 'User List', userPosts: posts
+  request.session.db_user_name=null;
+  request.session.db_user_role=null;
+  sess=request.session;
+  response.render('index', {  title: 'User List', userData: data,
+                              title: 'User List', userPosts: posts,
+                              sess:sess
                            });
   //response.sendFile(__dirname + "/views/index.html");
 });

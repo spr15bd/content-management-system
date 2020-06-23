@@ -22,17 +22,18 @@
         <%  
           });
         }
-        %>
-        <li><a href="/admin">Admin</a></li>
-        <%
+        
           if (sess.db_user_role!=null) {
-            if (post_id !=null) {
+            if (typeof id !='undefined') {
+            
         %>
-              <li><a href="#">Edit Post</a></li>
+              <li><a href="/admin/posts?edit=<%=id%>&option=edit_post">Edit Post</a></li>
         <%
             
             }
-          
+        %>
+              <li><a href="/admin">Admin</a></li>
+        <%
           }
         %>
       </ul>

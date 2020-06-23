@@ -36,7 +36,7 @@
 
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="/post?post_id=<%=post_id%>"><%=post_title%></a>
+                    <a href="/post?id=<%=post_id%>"><%=post_title%></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><%=post_author%></a>
@@ -45,7 +45,7 @@
                 <hr>
                 <img class="img-responsive" src=<%=post_img%> alt="">
                 <hr>
-                <p><%=post_content%></p>
+                <p><%=post_content%></p>and<%=sess.db_user_role%>
                 <hr>
               <%  });} else { %> <h1>Records not found.</h1> <%
             
