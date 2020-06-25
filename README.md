@@ -3,7 +3,7 @@
 A nodeJS content management system
 
 
-## Your Project
+## More Info
 
 On the front-end,
 
@@ -14,11 +14,10 @@ On the front-end,
 
 On the back-end,
 
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
+- this app starts at `server.js`
+- frameworks and packages in `package.json`
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy.
+Click `Show` in the header to see the app live. 
 
 
 ## Made by [Glitch](https://glitch.com/)
