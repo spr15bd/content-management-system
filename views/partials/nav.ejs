@@ -18,7 +18,7 @@
           Object.keys(userData).forEach(function(key) {
             let row=userData[key];
         %>
-            <li><a href="#"><%=row.cat_title%></a></li>
+            <li><a href="/category?category=<%=userData[key].cat_id%>"><%=row.cat_title%></a></li>
         <%  
           });
         }

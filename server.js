@@ -22,7 +22,6 @@ connection.query('SELECT * from categories', function (error, results, fields) {
     console.log("Connection error");
     throw error;
   }
-  //console.log('The solution is: ', results);
   data = results;
   
 });
@@ -32,7 +31,6 @@ connection.query('SELECT * from posts WHERE post_status="published"', function (
     console.log("Connection error");
     throw error;
   }
-  //console.log('The solution is: ', results);
   posts = results;
   
 });
@@ -111,15 +109,14 @@ app.get("/users", (request, response) => {
       }
       
       users = results;
-      response.render('admin/users', {  title: 'User List', userData: users,
-                                        title: 'User List', option: request.query.option,
-                                        title: 'User List', sess:sess
-                                 //title: 'User List', userComments: comments
+      response.render('admin/users', {  userData: users,
+                                        option: request.query.option,
+                                        sess:sess
       });
     });
   } else {
-    response.render('admin/users', {  title: 'User List', option: request.query.option,
-                                      title: 'User List', sess:sess
+    response.render('admin/users', {  option: request.query.option,
+                                      sess:sess
     });
   }
 });
@@ -140,8 +137,8 @@ app.get("/update_user", (request, response) => {
         throw error;
       }
       console.log("Data "+results);
-      response.render('admin/users', {  title: 'User List', option: 'edit_user',
-                                        title: 'User List', userData: results,
+      response.render('admin/users', {  option: 'edit_user',
+                                        userData: results,
                                         sess: sess
       });
     });
