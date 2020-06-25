@@ -1,6 +1,6 @@
-# hello-express
+# c-m-s
 
-A server that serves a webpage, its resources, and some data
+A nodeJS content management system
 
 
 ## Your Project
