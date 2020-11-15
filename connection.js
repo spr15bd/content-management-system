@@ -1,9 +1,9 @@
 const mysql = require("mysql");
 let connection = mysql.createConnection({
-  host     : 'sql2.freemysqlhosting.net',
-  user     : 'sql2333242',
-  password : 'lT8!hP9%',
-  database : 'sql2333242'
+  host     : 'johnny.heliohost.org',
+  user     : 'bdady@localhost',
+  password : 'l_B3Ex£lk$Tu',
+  database : 'bdady_cms'
 });
 
 module.exports = connection;
