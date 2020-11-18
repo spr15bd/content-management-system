@@ -16,7 +16,7 @@ app.set("view engine","ejs");
 let connection = require("./connection.js");
 
 //connection.connect();
-
+/*
 connection.query('SELECT * from categories', function (error, results, fields) {
   if (error) {
     console.log("Connection error");
@@ -25,7 +25,7 @@ connection.query('SELECT * from categories', function (error, results, fields) {
   data = results;
   
 });
-
+*/
 connection.query('SELECT * from posts WHERE post_status="published"', function (error, results, fields) {
   if (error) {
     console.log("Connection error");
@@ -662,6 +662,14 @@ app.get("/logout", (request, response) => {
 app.get("/", (request, response) => {
   sess=request.session;
   new Promise((resolve) => {
+    connection.query('SELECT * from categories', function (error, results, fields) {
+      if (error) {
+        console.log("Connection error");
+        throw error;
+      }
+      data = results;
+  
+});
     connection.query('SELECT * from posts WHERE post_status="published"', function (error, results, fields) {
       if (error) {
         console.log("Connection error");
