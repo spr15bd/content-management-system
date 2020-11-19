@@ -1,24 +1,25 @@
-# c-m-s
+# content-management-system
 
 A nodeJS content management system
 
+This consists of a server that serves node webpages, ejs files, and MySQL tables
 
-## More Info
+## The Project
 
 On the front-end,
 
-- Edit `views/index.html` to change the content of the webpage
+- Edit `views/index.ejs` to change the content of the webpage
 - `public/client.js` is the javacript that runs when you load the webpage
 - `public/style.css` is the styles for `views/index.html`
 - Drag in `assets`, like images or music, to add them to your project
 
 On the back-end,
 
-- this app starts at `server.js`
-- frameworks and packages in `package.json`
+- the app starts at `server.js`
+- add frameworks and packages in `package.json`
+- safely store app secrets in `.env` (nobody can see this but you and people you invite)
 
-Click `Show` in the header to see the app live. 
-
+Click `Show` in the header to see your app live. Updates to your code will instantly deploy.
 
 ## Made by [Glitch](https://glitch.com/)
 
