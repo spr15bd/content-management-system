@@ -1,5 +1,5 @@
 // server.js
-// where your node app starts
+// where the node app starts
 
 let data, posts, search_posts, sess;
 let message="";
