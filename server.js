@@ -54,6 +54,7 @@ app.get("/category", (request, response) => {
                                 sess:sess
     });
   });
+  connection.end();
 });
 
 app.get("/post", (request, response) => {
