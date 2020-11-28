@@ -15,7 +15,6 @@ app.set("view engine","ejs");
 
 let connection = require("./connection.js");
 
-//connection.connect();
 /*
 connection.query('SELECT * from categories', function (error, results, fields) {
   if (error) {
