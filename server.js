@@ -1,5 +1,5 @@
 // server.js
-// where the node app starts
+// where your node app starts
 
 let data, posts, search_posts, sess;
 let message="";
@@ -15,6 +15,7 @@ app.set("view engine","ejs");
 
 let connection = require("./connection.js");
 
+connection.connect();
 /*
 connection.query('SELECT * from categories', function (error, results, fields) {
   if (error) {
@@ -33,7 +34,7 @@ connection.query('SELECT * from posts WHERE post_status="published"', function (
   posts = results;
   
 });
-
+//connection.end();-- not working
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
@@ -54,7 +55,6 @@ app.get("/category", (request, response) => {
                                 sess:sess
     });
   });
-  connection.end();
 });
 
 app.get("/post", (request, response) => {
