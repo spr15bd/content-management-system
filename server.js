@@ -39,7 +39,7 @@ connection.query('SELECT * from posts WHERE post_status="published"', function (
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
 
-
+// display all posts of the category requested by the user
 app.get("/category", (request, response) => {
   sess=request.session;
   connection.query('SELECT * from posts WHERE post_cat_id=\"'+request.query.category+'\"', function (error, results, fields) {
@@ -57,6 +57,8 @@ app.get("/category", (request, response) => {
   });
 });
 
+
+// display the post requested by the user
 app.get("/post", (request, response) => {
   sess=request.session;
   let comments;
