@@ -4,7 +4,7 @@ let connection = mysql.createConnection({
   host     : 'johnny.heliohost.org',
   user     : 'bdady_tiger',
   password : '!_cXj8£;',
-  database : 'bdady_cms'
+  database : 'bdady_db'
 });
 
 module.exports = connection;
